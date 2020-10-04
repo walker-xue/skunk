@@ -1,0 +1,19 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.github.skunk</groupId>
+        <artifactId>skunk-lite</artifactId>
+        <version>1.0.0.RELEASE</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>skunk-data</artifactId>
+    <packaging>pom</packaging>
+    <description>
+       DB Data持久化
+    </description>
+
+    <modules>
+        <module>skunk-data-jpa</module>
+        <module>skunk-data-mybatis</module>
+    </modules>
+</project>

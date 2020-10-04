@@ -1,0 +1,31 @@
+spring:
+    datasource:
+        driverClassName: com.mysql.jdbc.Driver
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:mysql://localhost:3306/course_wechat?characterEncoding=utf8&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+        username: root
+        password: 123456
+        initialSize: 1
+        maxActive: 3
+        maxIdle: 2
+        hikari:
+            data-source-properties:
+                cachePrepStmts: true
+                prepStmtCacheSize: 250
+                prepStmtCacheSqlLimit: 2048
+                useServerPrepStmts: true
+aliyun:
+    oss:
+        endpoint: http://oss-cn-beijing.aliyuncs.com/
+        accessKeyId: LTAIPFVv2oOsWHHW
+        accessKeySecret: XWQJdCYPg7cB04n7tNdJTwjrBUO5Cs
+        bucketName: open-class
+        cdnPath: https://cdn.artyoo.com
+upload:
+    folder: /material
+logging:
+    level:
+        root: DEBUG
+        org.springframework: INFO
+        org.hibernate: ERROR
+        org.apache.tomcat: ERROR

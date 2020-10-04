@@ -1,0 +1,12 @@
+target
+.factorypath
+.project
+.classpath
+.settings/
+logs/
+.svn/
+*.iml
+.idea
+/bin
+**/node_modules/**
+**/node/**

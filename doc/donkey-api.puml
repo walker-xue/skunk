@@ -1,0 +1,32 @@
+@startuml
+
+Alice -> Bob: Authentication Request
+Bob --> Alice: Authentication Response
+
+Alice -> Bob: Another authentication Request
+Alice <-- Bob: another authentication Response
+
+@enduml
+
+
+@startuml
+autonumber
+title 我是标题
+张飞 -> 关羽: 二哥
+关羽 --> 张飞:三弟
+张飞 ->刘备:大哥
+刘备 -->张飞:三弟
+@enduml
+
+@startuml
+autonumber
+title 饿了么点餐流程
+用户 -> 登陆界面: 登陆
+用户 -> 登陆界面: 注册
+用户 --> 创建菜单:选择菜单
+创建菜单 ->确定订单:提供送餐地址
+创建菜单 -> 确定订单:提供付款信息
+确定订单 --> 商家:发送订单
+商家 --> 处理订单:处理订单
+处理订单 --> 商家:返回结果
+@enduml
