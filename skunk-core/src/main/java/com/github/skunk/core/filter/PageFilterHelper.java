@@ -23,8 +23,6 @@ import lombok.Setter;
 @Builder
 public class PageFilterHelper implements PageFilter {
 
-
-
     /**
      * 当前页
      */
@@ -75,11 +73,6 @@ public class PageFilterHelper implements PageFilter {
             .build();
     }
 
-    /**
-     * 前端排序字段转成SQL 排序语句
-     *
-     * @return
-     */
     /**
      * 前端排序字段转成SQL 排序语句
      *

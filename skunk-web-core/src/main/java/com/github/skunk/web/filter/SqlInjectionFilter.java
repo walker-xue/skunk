@@ -1,16 +1,22 @@
 package com.github.skunk.web.filter;
 
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.stream.Stream;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 import com.github.skunk.core.exception.IllegalArgumentException;
 import com.github.skunk.core.utils.CheckSqlInjectionUtils;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.stream.Stream;
 
 /**
  * 防止SQL注入
@@ -25,7 +31,7 @@ public class SqlInjectionFilter implements Filter {
      * @throws ServletException
      */
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 

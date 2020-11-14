@@ -25,15 +25,15 @@ public class PageResult<E> extends BaseEntity {
     /**
      * 总记录数
      */
-    public final long totalCount;
+    public long totalCount;
     /**
      * 本次返回的数据
      */
-    public final List<E> list;
+    public List<E> list;
     /**
      * 页脚数据集
      */
-    private final List<?> footer;
+    public List<?> footer;
     /**
      * 页号
      */

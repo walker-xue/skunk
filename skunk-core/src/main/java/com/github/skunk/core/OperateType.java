@@ -8,7 +8,7 @@ import lombok.Getter;
  * @author walker
  */
 @Getter
-public enum OperateEnum {
+public enum OperateType {
 
     SUBMIT("submit", "提交"),
     SAVE("save", "保存");
@@ -16,7 +16,7 @@ public enum OperateEnum {
     private String code;
     private String remarks;
 
-    OperateEnum(String code, String remarks) {
+    OperateType(String code, String remarks) {
         this.code = code;
         this.remarks = remarks;
     }

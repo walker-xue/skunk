@@ -9,7 +9,7 @@
     </parent>
 
     <groupId>com.github.skunk</groupId>
-    <version>1.0.0.RELEASE</version>
+    <version>1.0.1.RELEASE</version>
     <artifactId>skunk-lite</artifactId>
     <packaging>pom</packaging>
     <name>skunk</name>
@@ -56,12 +56,12 @@
         <swagger.version>2.9.2</swagger.version>
         <swagger-bootstrap-ui.version>1.9.6</swagger-bootstrap-ui.version>
 
-        <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+        <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
 
         <javax.mail.version>1.6.0</javax.mail.version>
         <jaxb.version>2.3.1</jaxb.version>
         <jjwt.version>0.9.1</jjwt.version>
-        <flowable.version>6.5.0</flowable.version>
+        <flowable.version>6.6.0</flowable.version>
         <poi.version>4.1.2</poi.version>
         <xmlbeans.version>3.1.0</xmlbeans.version>
         <fastjson.version>1.2.66</fastjson.version>
@@ -70,7 +70,7 @@
         <tk.mybatis.version>2.1.5</tk.mybatis.version>
         <mybatis-spring-boot.version>2.1.1</mybatis-spring-boot.version>
         <pagehelper.version>1.2.12</pagehelper.version>
-        <jasypt.version>2.1.1</jasypt.version>
+        <jasypt.version>2.1.2</jasypt.version>
 
         <commons-lang3.version>3.11</commons-lang3.version>
         <commons-cli.version>1.4</commons-cli.version>

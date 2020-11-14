@@ -67,7 +67,7 @@ public class AbstractExceptionHandler extends ResponseEntityExceptionHandler {
      * @throws Exception
      */
     @ExceptionHandler(value = { UnrealizedException.class })
-    protected ResponseEntity<Map<String, Object>> functUnrealizedException(UnrealizedException ex) {
+    protected ResponseEntity<Map<String, Object>> unrealizedException(UnrealizedException ex) {
         log.warn(ex.getMessage(), ex);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put(MESSAGE_KEY, ex.getMessage());

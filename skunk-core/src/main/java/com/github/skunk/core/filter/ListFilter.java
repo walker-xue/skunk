@@ -25,14 +25,17 @@ public interface ListFilter {
      *
      * @return
      */
-    void setIsOrderBy(boolean isOrderBy);
+    default void setIsOrderBy(boolean isOrderBy) {
+    }
 
     /**
      * 是否排序
      *
      * @return
      */
-    boolean isOrderBy();
+    default boolean isOrderBy() {
+        return false;
+    }
 
     /**
      * 设置排序字段
@@ -54,7 +57,6 @@ public interface ListFilter {
      * @return
      */
     Map<String, Object> getParams();
-
 
     /**
      * 请求参数转化成对象

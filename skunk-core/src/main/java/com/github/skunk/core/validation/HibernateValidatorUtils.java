@@ -1,18 +1,21 @@
 package com.github.skunk.core.validation;
 
-import org.hibernate.validator.HibernateValidator;
+import java.util.Set;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
-import java.util.Set;
+import org.hibernate.validator.HibernateValidator;
+
+import com.github.skunk.core.collectors.CollectorUtils;
 
 /**
  * @author walker
  * @since 2019年5月15日
  */
-public class ValidationUtils {
+public class HibernateValidatorUtils {
 
     /**
      * 使用hibernate的注解来进行验证
@@ -33,5 +36,20 @@ public class ValidationUtils {
      */
     public static <T> Set<ConstraintViolation<T>> validate(T obj) {
         return validator.validate(obj);
+    }
+
+    /**
+     * 功能描述: <br>
+     * 〈注解验证参数〉
+     *
+     * @param obj
+     */
+    public static <T> void validate(T obj, Class<?>... groups) {
+
+        Set<ConstraintViolation<T>> validate = validator.validate(obj, groups);
+
+        if (CollectorUtils.isNotEmpty(validate)) {
+            throw new ConstraintViolationException(validate);
+        }
     }
 }

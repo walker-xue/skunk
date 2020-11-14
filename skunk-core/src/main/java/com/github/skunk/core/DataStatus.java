@@ -6,15 +6,15 @@ import lombok.Getter;
  * @author walker
  */
 @Getter
-public enum StatusEnum {
+public enum DataStatus {
 
-    DISABLE("disable", "禁用"),
-    ENABLE("enable", "启用");
+    DISABLE("DISABLE", "禁用"),
+    ENABLE("ENABLE", "启用");
 
     private String code;
     private String remarks;
 
-    StatusEnum(String code, String remarks) {
+    DataStatus(String code, String remarks) {
         this.code = code;
         this.remarks = remarks;
     }

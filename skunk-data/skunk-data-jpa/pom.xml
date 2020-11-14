@@ -2,14 +2,14 @@
     <parent>
         <groupId>com.github.skunk</groupId>
         <artifactId>skunk-data</artifactId>
-        <version>1.0.0.RELEASE</version>
+        <version>1.0.1.RELEASE</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>skunk-data-jpa</artifactId>
 	<packaging>jar</packaging>
     <description>
-       DB Data持久化
+       DB Data持久化工具，其数据的持久化依赖于Spring JPA实现。
     </description>
 
 	<dependencies>
