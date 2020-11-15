@@ -2,7 +2,7 @@
     <parent>
         <groupId>com.github.skunk</groupId>
         <artifactId>skunk-data</artifactId>
-        <version>1.0.1.RELEASE</version>
+        <version>Dragon.SR1</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
