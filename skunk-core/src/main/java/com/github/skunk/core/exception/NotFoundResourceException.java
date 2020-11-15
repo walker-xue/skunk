@@ -17,7 +17,7 @@ public class NotFoundResourceException extends RuntimeException {
 	 * 异常对应的返回码
 	 */
 	@Getter
-	private Integer code = Integer.valueOf(400);
+	private Integer code = Integer.valueOf(404);
 
 	public NotFoundResourceException() {
 		super();
