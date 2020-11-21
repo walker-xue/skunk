@@ -67,11 +67,11 @@
         <camunda.version>7.14.0</camunda.version>
         <poi.version>4.1.2</poi.version>
         <xmlbeans.version>3.1.0</xmlbeans.version>
-        <fastjson.version>1.2.66</fastjson.version>
+        <fastjson.version>1.2.75</fastjson.version>
         <easyexcel.version>2.2.6</easyexcel.version>
-        <mariadb.version>2.4.2</mariadb.version>
+        <mariadb.version>2.7.0</mariadb.version>
         <tk.mybatis.version>2.1.5</tk.mybatis.version>
-        <mybatis-spring-boot.version>2.1.1</mybatis-spring-boot.version>
+        <mybatis-spring-boot.version>2.1.4</mybatis-spring-boot.version>
         <pagehelper.version>1.2.12</pagehelper.version>
         <jasypt.version>3.0.3</jasypt.version>
         <txlcn.version>5.0.2.RELEASE</txlcn.version>
@@ -81,7 +81,7 @@
         <commons-cli.version>1.4</commons-cli.version>
         <commons-exec.version>1.3</commons-exec.version>
         <commons-text.version>1.9</commons-text.version>
-        <commons-io.version>2.7</commons-io.version>
+        <commons-io.version>2.8.0</commons-io.version>
 
         <aliyun-java-sdk-dysmsapi.version>1.1.0</aliyun-java-sdk-dysmsapi.version>
         <aliyun-sdk-oss.version>3.4.2</aliyun-sdk-oss.version>
