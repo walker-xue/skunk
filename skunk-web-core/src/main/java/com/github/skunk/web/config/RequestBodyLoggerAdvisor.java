@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.github.skunk.core.utils.JacksonUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +32,8 @@ public class RequestBodyLoggerAdvisor extends RequestBodyAdviceAdapter {
     }
 
     @Override
-    public Object afterBodyRead(Object body, HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
+    public Object afterBodyRead(Object body, HttpInputMessage inputMessage, MethodParameter parameter, Type targetType,
+        Class<? extends HttpMessageConverter<?>> converterType) {
         Method method = parameter.getMethod();
 
         // 自定义日志输出
@@ -42,9 +42,8 @@ public class RequestBodyLoggerAdvisor extends RequestBodyAdviceAdapter {
             if (StringHttpMessageConverter.class.isAssignableFrom(converterType)) {
                 log.debug("=> {}#{}: {}", parameter.getContainingClass().getSimpleName(), method.getName(), body.toString());
             } else {
-                log.debug("=> {}#{}: {}", parameter.getContainingClass().getSimpleName(), method.getName(), JSON.toJSONString(body, SerializerFeature.UseSingleQuotes));
+                log.debug("=> {}#{}: {}", parameter.getContainingClass().getSimpleName(), method.getName(), JacksonUtils.toJson(body));
             }
-
         }
         return super.afterBodyRead(body, inputMessage, parameter, targetType, converterType);
     }

@@ -2,11 +2,6 @@ package com.github.skunk.core;
 
 import lombok.Getter;
 
-/**
- * 操作定义
- *
- * @author walker
- */
 @Getter
 public enum OperateType {
 

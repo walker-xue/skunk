@@ -6,12 +6,9 @@ import java.util.List;
 import com.github.pagehelper.Page;
 import com.github.skunk.core.filter.PageResult;
 
-public class DataPageResult<E> extends PageResult {
+public class PageHelperResult<E> extends PageResult {
 
-    /**
-     * @param list
-     */
-    public DataPageResult(List<E> list) {
+    public PageHelperResult(List<E> list) {
         if (list instanceof Page) {
             Page page = (Page) list;
             this.pageNo = page.getPageNum();
@@ -24,11 +21,11 @@ public class DataPageResult<E> extends PageResult {
         this.footer = Collections.emptyList();
     }
 
-    /**
-     * @param total
-     * @param list
-     */
-    public DataPageResult(long total, List<E> list) {
+    public static <E> PageHelperResult<E> build(List<E> list) {
+        return new PageHelperResult(list);
+    }
+
+    public PageHelperResult(long total, List<E> list) {
         super(total, list);
         if (list instanceof Page) {
             Page page = (Page) list;
@@ -40,5 +37,9 @@ public class DataPageResult<E> extends PageResult {
         }
         this.list = list;
         this.footer = Collections.emptyList();
+    }
+
+    public static <E> PageHelperResult<E> build(long total, List<E> list) {
+        return new PageHelperResult(total, list);
     }
 }

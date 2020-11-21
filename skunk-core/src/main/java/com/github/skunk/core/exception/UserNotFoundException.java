@@ -17,7 +17,7 @@ public class UserNotFoundException extends NotFoundResourceException {
 	 * 异常对应的返回码
 	 */
 	@Getter
-	private Integer code = Integer.valueOf(400);
+	private Integer code = Integer.valueOf(404);
 
 	public UserNotFoundException() {
 		super();

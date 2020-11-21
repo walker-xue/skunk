@@ -15,7 +15,6 @@ import com.github.skunk.core.filter.PageResult;
  * @date 2019年12月7日
  * @since 0.0.1
  */
-@Deprecated
 public interface IBaseService<T> {
 
     /**

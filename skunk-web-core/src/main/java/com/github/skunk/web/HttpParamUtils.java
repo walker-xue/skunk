@@ -30,7 +30,7 @@ import com.github.skunk.core.filter.SortOrder;
  */
 public class HttpParamUtils {
 
-    public static String transcoding(String value) {
+    public static String transCoding(String value) {
         return new String(value.getBytes(ISO_8859_1), UTF_8);
     }
 

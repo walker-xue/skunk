@@ -1,7 +1,5 @@
 package com.github.skunk.core.exception;
 
-import com.alibaba.fastjson.JSON;
-
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -42,7 +40,6 @@ public class BaseException extends RuntimeException {
     public BaseException(String message, Throwable cause) {
         super(message);
         this.message = message;
-        log.error("message:{}, exception:{}", code, message, JSON.toJSON(cause));
     }
 
     public BaseException(Integer code, String message) {
@@ -56,7 +53,6 @@ public class BaseException extends RuntimeException {
         super(message, cause);
         this.code = code;
         this.message = message;
-        log.error("code:{}, message:{}, exception:{}", code, message, JSON.toJSON(cause));
     }
 
     public Integer getCode() {
