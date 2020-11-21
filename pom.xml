@@ -47,6 +47,8 @@
         <java.version>1.8</java.version>
 
         <spring-boot.version>2.3.5.RELEASE</spring-boot.version>
+        <spring-boot-admin.version>2.3.1</spring-boot-admin.version>
+        <spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
         <lombok.version>1.18.4</lombok.version>
 
         <maven.version>3.1.0</maven.version>
@@ -71,7 +73,9 @@
         <tk.mybatis.version>2.1.5</tk.mybatis.version>
         <mybatis-spring-boot.version>2.1.1</mybatis-spring-boot.version>
         <pagehelper.version>1.2.12</pagehelper.version>
-        <jasypt.version>2.1.2</jasypt.version>
+        <jasypt.version>3.0.3</jasypt.version>
+        <txlcn.version>5.0.2.RELEASE</txlcn.version>
+        <io.micrometer.version>1.6.1</io.micrometer.version>
 
         <commons-lang3.version>3.11</commons-lang3.version>
         <commons-cli.version>1.4</commons-cli.version>
@@ -143,6 +147,19 @@
                 <version>${camunda.version}</version>
             </dependency>
 
+            <!-- api docs -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-micro-spring-boot-starter</artifactId>
+                <version>2.0.7</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>2.0.7</version>
+            </dependency>
+
+
             <!--json -->
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -165,6 +182,18 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
+            </dependency>
+
+            <!-- tx -->
+            <dependency>
+                <groupId>com.codingapi.txlcn</groupId>
+                <artifactId>txlcn-tc</artifactId>
+                <version>${txlcn.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.codingapi.txlcn</groupId>
+                <artifactId>txlcn-txmsg-netty</artifactId>
+                <version>${txlcn.version}</version>
             </dependency>
 
             <!--mybatis -->
@@ -297,6 +326,34 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>
                 <version>${easyexcel.version}</version>
+            </dependency>
+
+            <!-- spring-boot-admin   -->
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-client</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-bom</artifactId>
+                <version>${io.micrometer.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <!-- cloud-->
