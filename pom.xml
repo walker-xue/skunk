@@ -55,9 +55,10 @@
         <node.version>v8.9.3</node.version>
         <npm.version>5.6.0</npm.version>
 
-        <swagger.version>2.9.2</swagger.version>
-        <swagger-bootstrap-ui.version>1.9.6</swagger-bootstrap-ui.version>
 
+        <swagger.version>3.0.0</swagger.version>
+        <springfox.version>3.0.0</springfox.version>
+        <knife4j.version>3.0.1</knife4j.version>
         <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
 
         <javax.mail.version>1.6.0</javax.mail.version>
@@ -67,7 +68,6 @@
         <camunda.version>7.14.0</camunda.version>
         <poi.version>4.1.2</poi.version>
         <xmlbeans.version>3.1.0</xmlbeans.version>
-        <fastjson.version>1.2.75</fastjson.version>
         <easyexcel.version>2.2.6</easyexcel.version>
         <mariadb.version>2.7.0</mariadb.version>
         <tk.mybatis.version>2.1.5</tk.mybatis.version>
@@ -101,7 +101,9 @@
         <module>skunk-web-core</module>
         <module>skunk-data</module>
         <module>skunk-poi</module>
-        <!--        <module>skunk-oss</module>-->
+        <!--
+        <module>skunk-oss</module>
+        -->
     </modules>
 
     <dependencies>
@@ -152,20 +154,18 @@
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-micro-spring-boot-starter</artifactId>
-                <version>2.0.7</version>
+                <version>${knife4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-spring-boot-starter</artifactId>
-                <version>2.0.7</version>
+                <version>${knife4j.version}</version>
             </dependency>
 
-
-            <!--json -->
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-boot-starter</artifactId>
+                <version>${springfox.version}</version>
             </dependency>
 
             <!--common -->
@@ -226,16 +226,11 @@
                 </exclusions>
             </dependency>
 
-            <!-- Swagger UI -->
+            <!-- Swagger -->
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>
                 <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>swagger-bootstrap-ui</artifactId>
-                <version>${swagger-bootstrap-ui.version}</version>
             </dependency>
 
             <dependency>

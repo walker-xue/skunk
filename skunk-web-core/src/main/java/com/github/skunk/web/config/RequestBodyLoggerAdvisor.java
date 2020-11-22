@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter;
 
-import com.github.skunk.core.utils.JacksonUtils;
+import com.github.skunk.core.utils.JSONUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,7 +42,7 @@ public class RequestBodyLoggerAdvisor extends RequestBodyAdviceAdapter {
             if (StringHttpMessageConverter.class.isAssignableFrom(converterType)) {
                 log.debug("=> {}#{}: {}", parameter.getContainingClass().getSimpleName(), method.getName(), body.toString());
             } else {
-                log.debug("=> {}#{}: {}", parameter.getContainingClass().getSimpleName(), method.getName(), JacksonUtils.toJson(body));
+                log.debug("=> {}#{}: {}", parameter.getContainingClass().getSimpleName(), method.getName(), JSONUtils.toJson(body));
             }
         }
         return super.afterBodyRead(body, inputMessage, parameter, targetType, converterType);

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import com.github.skunk.core.utils.JacksonUtils;
+import com.github.skunk.core.utils.JSONUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,7 +36,7 @@ public class ResponseBodyLoggerAdvisor implements ResponseBodyAdvice<Object> {
         Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         // 响应值转JSON串输出到日志系统
         if (log.isDebugEnabled()) {
-            log.debug("=> {}: {}", request.getURI(), JacksonUtils.toJson(body));
+            log.debug("=> {}: {}", request.getURI(), JSONUtils.toJson(body));
         }
         return body;
     }
