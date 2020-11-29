@@ -16,7 +16,7 @@
     <description>
         通过插件的方式实现快速开发Web项目功能。高度封装了数据持久化、OSS对象存储、通用接口定义和实现等新特性功能。
     </description>
-    <url>https://github.com/donkeycart/skunk-lite</url>
+    <url>https://github.com/walker-xue/skunk.git</url>
 
     <licenses>
         <license>
@@ -28,9 +28,9 @@
 
     <scm>
         <tag>v0.0.1</tag>
-        <url>https://github.com/donkeycart/skunk-lite</url>
-        <connection>scm:git:https://github.com/donkeycart/skunk-lite.git</connection>
-        <developerConnection>scm:git:https://github.com/donkeycart/skunk-lite.git</developerConnection>
+        <url>https://github.com/walker-xue/skunk.git</url>
+        <connection>scm:git:https://github.com/walker-xue/skunk.git</connection>
+        <developerConnection>scm:git:https://github.com/walker-xue/skunk.git</developerConnection>
     </scm>
 
     <developers>
@@ -67,6 +67,7 @@
         <flowable.version>6.6.0</flowable.version>
         <camunda.version>7.14.0</camunda.version>
         <poi.version>4.1.2</poi.version>
+        <poi-tl.version>1.8.2</poi-tl.version>
         <xmlbeans.version>3.1.0</xmlbeans.version>
         <easyexcel.version>2.2.6</easyexcel.version>
         <mariadb.version>2.7.0</mariadb.version>
@@ -100,7 +101,8 @@
         <module>skunk-acl</module>
         <module>skunk-web-core</module>
         <module>skunk-data</module>
-        <module>skunk-poi</module>
+        <!-- <module>skunk-poi</module>-->
+        <module>skunk-office</module>
         <!--
         <module>skunk-oss</module>
         -->
@@ -318,6 +320,17 @@
                 <artifactId>xmlbeans</artifactId>
                 <version>${xmlbeans.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.deepoove</groupId>
+                <artifactId>poi-tl</artifactId>
+                <version>${poi-tl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>

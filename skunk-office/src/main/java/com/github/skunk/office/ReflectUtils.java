@@ -1,4 +1,4 @@
-package com.github.skunk.poi;
+package com.github.skunk.office;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -13,7 +13,7 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.time.DateUtils;
 
 import com.github.skunk.core.utils.StringUtils;
-import com.github.skunk.poi.file.ExcelColumn;
+import com.github.skunk.office.excel.ExcelColumn;
 
 import lombok.extern.slf4j.Slf4j;
 

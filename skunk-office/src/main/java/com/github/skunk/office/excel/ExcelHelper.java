@@ -1,4 +1,4 @@
-package com.github.skunk.poi.file;
+package com.github.skunk.office.excel;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +25,7 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 import com.github.skunk.core.collectors.CollectorUtils;
 import com.github.skunk.core.utils.StringUtils;
-import com.github.skunk.poi.ReflectUtils;
+import com.github.skunk.office.ReflectUtils;
 
 import lombok.extern.slf4j.Slf4j;
 

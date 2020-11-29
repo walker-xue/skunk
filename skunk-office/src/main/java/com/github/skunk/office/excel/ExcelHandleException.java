@@ -1,4 +1,4 @@
-package com.github.skunk.poi.file;
+package com.github.skunk.office.excel;
 
 /**
  * Excel 处理异常
