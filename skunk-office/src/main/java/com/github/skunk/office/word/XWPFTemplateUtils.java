@@ -27,6 +27,7 @@ public class XWPFTemplateUtils {
         Validate.notBlank(templateFile, "Word Template File is null.");
 
         File file = new File(templateFile);
+
         if (!file.exists()) {
             throw new RuntimeException(
                 String.format("The template file does not exist. Template file:%s ", templateFile));
