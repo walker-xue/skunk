@@ -1,4 +1,4 @@
-package com.github.skunk.oss.config;
+package com.skunk.oss.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

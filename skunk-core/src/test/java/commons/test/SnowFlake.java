@@ -3,8 +3,9 @@ package commons.test;
 import java.util.UUID;
 
 public class SnowFlake {
+
     // 起始的时间戳
-//    private final static long START_STMP = 1480166465631L;
+    //    private final static long START_STMP = 1480166465631L;
     private final static long START_STMP = System.currentTimeMillis();
     // 每一部分占用的位数，就三个
     private final static long SEQUENCE_BIT = 12;// 序列号占用的位数
@@ -33,6 +34,22 @@ public class SnowFlake {
         this.datacenterId = datacenterId;
         this.machineId = machineId;
     }
+    public static void main(String[] args) {
+        // 构造方法设置机器码：第9个机房的第20台机器
+
+        SnowFlake snowFlake = new SnowFlake(9, 20);
+        for (int i = 0; i < (1 << 12); i++) {
+
+            long l = snowFlake.nextId();
+
+            System.out.println(l);
+            System.out.println(String.format("Long.toBinaryString: %s", Long.toBinaryString(i)));
+        }
+
+        System.out.print(System.currentTimeMillis() + "=================");
+        System.out.println(UUID.randomUUID().toString().replace("-", "").toLowerCase());
+        System.out.println(UUID.randomUUID().toString().toLowerCase());
+    }
     //产生下一个ID
     public synchronized long nextId() {
         long currStmp = getNewstmp();
@@ -54,13 +71,12 @@ public class SnowFlake {
         }
 
         lastStmp = currStmp;
-         //就是用相对毫秒数、机器ID和自增序号拼接
+        //就是用相对毫秒数、机器ID和自增序号拼接
         return (currStmp - START_STMP) << TIMESTMP_LEFT //时间戳部分
             | datacenterId << DATACENTER_LEFT
             | machineId << MACHINE_LEFT
             | sequence;                            //序列号部分
     }
-
     private long getNextMill() {
         long mill = getNewstmp();
         while (mill <= lastStmp) {
@@ -68,28 +84,8 @@ public class SnowFlake {
         }
         return mill;
     }
-
     private long getNewstmp() {
-        return System.currentTimeMillis()+1033345L;
-    }
-
-
-    public static void main(String[] args) {
-        // 构造方法设置机器码：第9个机房的第20台机器
-
-        SnowFlake  snowFlake = new SnowFlake(9, 20);
-        for(int i =0; i <(1<< 12); i++){
-
-            long l = snowFlake.nextId();
-
-            System.out.println(l);
-            System.out.println(String.format("Long.toBinaryString: %s",Long.toBinaryString(i)));
-        }
-
-
-        System.out.print(System.currentTimeMillis()+"=================");
-        System.out.println(UUID.randomUUID().toString().replace("-", "").toLowerCase());
-        System.out.println(UUID.randomUUID().toString().toLowerCase());
+        return System.currentTimeMillis() + 1033345L;
     }
 
 }

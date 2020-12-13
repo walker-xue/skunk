@@ -1,4 +1,4 @@
-package com.github.skunk.oss.data;
+package com.skunk.oss.data;
 
 import java.io.File;
 import java.util.Optional;
@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.PutObjectResult;
-import com.github.skunk.core.exception.BaseException;
-import com.github.skunk.oss.config.OssConfigProperties;
-import com.github.skunk.oss.event.OssEvent;
+import com.skunk.core.exception.BaseException;
+import com.skunk.oss.config.OssConfigProperties;
+import com.skunk.oss.event.OssEvent;
 
 import lombok.extern.slf4j.Slf4j;
 

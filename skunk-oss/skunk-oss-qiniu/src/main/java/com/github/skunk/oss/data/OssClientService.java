@@ -1,4 +1,4 @@
-package com.github.skunk.oss.data;
+package com.skunk.oss.data;
 
 import java.io.File;
 import java.util.Optional;
@@ -11,9 +11,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
-import com.github.skunk.core.exception.BaseException;
-import com.github.skunk.oss.config.OssConfigProperties;
-import com.github.skunk.oss.event.OssEvent;
+import com.skunk.core.exception.BaseException;
+import com.skunk.oss.config.OssConfigProperties;
+import com.skunk.oss.event.OssEvent;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.BucketManager;

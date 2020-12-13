@@ -1,4 +1,4 @@
-package com.github.skunk.office.word;
+package com.skunk.office.word;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
