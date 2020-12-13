@@ -1,27 +1,24 @@
 package com.skunk.oss.data;
 
-import java.io.File;
-import java.util.Optional;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSON;
-import com.skunk.core.exception.BaseException;
-import com.skunk.oss.config.OssConfigProperties;
-import com.skunk.oss.event.OssEvent;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
-
+import com.skunk.core.exception.BaseException;
+import com.skunk.oss.config.OssConfigProperties;
+import com.skunk.oss.event.OssEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.io.File;
+import java.util.Optional;
 
 @Slf4j
 @Service

@@ -1,18 +1,16 @@
 package com.donkeycode.boot.data;
 
-import java.util.Collections;
-import java.util.Date;
-
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.donkeycode.boot.BaseTest;
-import com.skunk.core.Constants;
 import com.skunk.core.filter.PageFilter;
 import com.skunk.core.filter.PageFilterHelper;
 import com.skunk.core.filter.SortOrder;
 import com.skunk.oss.data.OssFileService;
 import com.skunk.oss.data.domain.OssFile;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Collections;
+import java.util.Date;
 
 public class OssFileServiceTest extends BaseTest {
 

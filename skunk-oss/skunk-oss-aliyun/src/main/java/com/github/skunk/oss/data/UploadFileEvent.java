@@ -1,12 +1,11 @@
 package com.skunk.oss.data;
 
-import java.io.File;
-
+import com.skunk.oss.data.domain.OssFile;
+import com.skunk.oss.event.OssEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.skunk.oss.data.domain.OssFile;
-import com.skunk.oss.event.OssEvent;
+import java.io.File;
 
 @Service
 public class UploadFileEvent implements OssEvent {
