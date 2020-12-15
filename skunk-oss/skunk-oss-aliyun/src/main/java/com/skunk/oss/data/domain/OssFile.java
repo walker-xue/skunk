@@ -1,6 +1,6 @@
 package com.skunk.oss.data.domain;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.skunk.core.BaseEntity;
 import lombok.*;
 
@@ -26,17 +26,17 @@ public class OssFile extends BaseEntity {
 
     private String fileId;
     private String name;
-    @JSONField(serialize=false)
+    @JsonIgnore
     private String ossKey;
     private String fileType;
-    @JSONField(serialize=false)
+    @JsonIgnore
     private String fileMD5;
     private Long fileSize;
-    @JSONField(serialize=false)
+    @JsonIgnore
     private String meta;
-    @JSONField(serialize=false)
+    @JsonIgnore
     private String status;
-    @JSONField(serialize=false)
+    @JsonIgnore
     private String localPath;
     private String cdnPath;
     private Date createTime;

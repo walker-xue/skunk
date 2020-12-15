@@ -49,12 +49,9 @@
         <spring-boot.version>2.3.7.RELEASE</spring-boot.version>
         <spring-boot-admin.version>2.3.1</spring-boot-admin.version>
         <spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
-        <lombok.version>1.18.4</lombok.version>
+        <lombok.version>1.18.16</lombok.version>
 
         <maven.version>3.1.0</maven.version>
-        <node.version>v8.9.3</node.version>
-        <npm.version>5.6.0</npm.version>
-
 
         <swagger.version>3.0.0</swagger.version>
         <springfox.version>3.0.0</springfox.version>
@@ -77,16 +74,13 @@
         <pagehelper.version>1.2.13</pagehelper.version>
         <jasypt.version>3.0.3</jasypt.version>
         <txlcn.version>5.0.2.RELEASE</txlcn.version>
-        <io.micrometer.version>1.6.1</io.micrometer.version>
+        <io.micrometer.version>1.6.2</io.micrometer.version>
 
-        <commons-lang3.version>3.11</commons-lang3.version>
-        <commons-cli.version>1.4</commons-cli.version>
-        <commons-exec.version>1.3</commons-exec.version>
-        <commons-text.version>1.9</commons-text.version>
-        <commons-io.version>2.8.0</commons-io.version>
+        <jodconverter.version>4.3.0</jodconverter.version>
+        <libre-office.version>7.0.3</libre-office.version>
 
         <aliyun-java-sdk-dysmsapi.version>1.1.0</aliyun-java-sdk-dysmsapi.version>
-        <aliyun-sdk-oss.version>3.4.2</aliyun-sdk-oss.version>
+        <aliyun-sdk-oss.version>3.11.2</aliyun-sdk-oss.version>
 
         <!-- Plugin versions -->
         <mybatis-generator-maven-plugin.version>1.3.7</mybatis-generator-maven-plugin.version>
@@ -101,11 +95,8 @@
         <module>skunk-acl</module>
         <module>skunk-web-core</module>
         <module>skunk-data</module>
-        <!-- <module>skunk-poi</module>-->
         <module>skunk-office</module>
-        <!--
         <module>skunk-oss</module>
-        -->
     </modules>
 
     <dependencies>
@@ -187,6 +178,17 @@
                 <version>${commons-io.version}</version>
             </dependency>
             -->
+            <!--  office 强依赖 libreoffice 7.0.3版本-->
+            <dependency>
+                <groupId>org.jodconverter</groupId>
+                <artifactId>jodconverter-spring-boot-starter</artifactId>
+                <version>${jodconverter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.libreoffice</groupId>
+                <artifactId>libreoffice</artifactId>
+                <version>${libreoffice.version}</version>
+            </dependency>
 
             <!-- tx -->
             <dependency>

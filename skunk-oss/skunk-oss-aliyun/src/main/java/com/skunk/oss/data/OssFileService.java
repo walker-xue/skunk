@@ -2,12 +2,11 @@ package com.skunk.oss.data;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.skunk.core.collectors.CollectorUtils;
 import com.skunk.core.filter.PageFilter;
+import com.skunk.core.utils.StringUtils;
 import com.skunk.data.SqlMapper;
 import com.skunk.oss.config.OssConfigProperties;
 import com.skunk.oss.data.domain.OssFile;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,9 @@ public class OssFileService {
     private static final String OSS_FILE_BY_ID_SQL = " select * from oss_file where file_id = #{fileId} ";
 
     private static final String UPDATE_OSS_FILE_STATUS_BY_ID_SQL = " update oss_file set `status`=?  where file_id=? ";
+
     private static final String DELETE_OSS_FILE_BY_ID_SQL = " delete from  oss_file where file_id= ? ";
+
     private static final String INSERT_SQL = "INSERT INTO `oss_file` (`file_id`, `name`, `oss_key`, `file_type`, `meta`, `status`,`file_md5`, `file_size`, `local_path`, `create_time`) VALUES (?,?,?,?,?,?,?,?,?,?) ";
 
     @Autowired
@@ -82,8 +83,8 @@ public class OssFileService {
      */
     public void insertRecode(OssFile record) {
         record.setFileId(UUID.randomUUID().toString());
-        Object[] params = new Object[] { record.getFileId(), record.getName(), record.getOssKey(), record.getFileType(), record.getMeta(), record.getStatus(), record.getFileMD5(), record.getFileSize(), record.getLocalPath(), new Date() };
-        int[] types = new int[] {
+        Object[] params = new Object[]{record.getFileId(), record.getName(), record.getOssKey(), record.getFileType(), record.getMeta(), record.getStatus(), record.getFileMD5(), record.getFileSize(), record.getLocalPath(), new Date()};
+        int[] types = new int[]{
             Types.VARCHAR,
             Types.VARCHAR,
             Types.VARCHAR,
@@ -93,7 +94,7 @@ public class OssFileService {
             Types.VARCHAR,
             Types.BIGINT,
             Types.VARCHAR,
-            Types.DATE };
+            Types.DATE};
         jdbcTemplate.update(INSERT_SQL, params, types);
         record.setCdnPath(configProperties.getCdnPath() + (record.getOssKey().startsWith("/") ? "" : "/") + record.getOssKey());
     }
@@ -104,17 +105,18 @@ public class OssFileService {
      */
     public PageInfo<OssFile> getPageList(PageFilter pageFilter) {
         StringBuffer querySql = new StringBuffer(LIST_SQL);
-        if (CollectorUtils.isNotEmpty(pageFilter.getParams())) {
-            if (StringUtils.isNoneBlank(pageFilter.getParams().get("fileType").toString())) {
-                querySql.append(" and file_type=#{fileType} ");
-            }
-            if (StringUtils.isNoneBlank(pageFilter.getParams().get("fileName").toString())) {
-                querySql.append(" and name like concat('%',#{fileName},'%') ");
-            }
+
+
+        if (StringUtils.isNotBlank(pageFilter.getParamValueToString("fileType"))) {
+            querySql.append(" and file_type=#{fileType} ");
         }
+        if (StringUtils.isNotBlank(pageFilter.getParamValueToString("fileName"))) {
+            querySql.append(" and name like concat('%',#{fileName},'%') ");
+        }
+
         PageHelper.startPage(pageFilter.getPageNo(), pageFilter.getPageSize(), pageFilter.getOrderBy());
         List<OssFile> ossFiles = sqlMapper.selectList(querySql.toString(), pageFilter.getParams(), OssFile.class);
-        ossFiles.stream().filter(item -> StringUtils.isNoneBlank(item.getOssKey())).forEach(item -> item.setCdnPath(configProperties.getCdnPath() + (item.getOssKey().startsWith("/") ? "" : "/") + item.getOssKey()));
+        ossFiles.stream().filter(item -> StringUtils.isNotBlank(item.getOssKey())).forEach(item -> item.setCdnPath(configProperties.getCdnPath() + (item.getOssKey().startsWith("/") ? "" : "/") + item.getOssKey()));
         return new PageInfo<>(ossFiles);
     }
 
@@ -123,7 +125,7 @@ public class OssFileService {
      * @param status
      */
     public void updateStatus(String fileId, String status) {
-        jdbcTemplate.update(UPDATE_OSS_FILE_STATUS_BY_ID_SQL, new Object[] { status, fileId });
+        jdbcTemplate.update(UPDATE_OSS_FILE_STATUS_BY_ID_SQL, new Object[]{status, fileId});
     }
 
     /**
@@ -146,6 +148,6 @@ public class OssFileService {
      * @param fileId
      */
     public void deleteById(String fileId) {
-        jdbcTemplate.update(DELETE_OSS_FILE_BY_ID_SQL, new Object[] { fileId });
+        jdbcTemplate.update(DELETE_OSS_FILE_BY_ID_SQL, new Object[]{fileId});
     }
 }

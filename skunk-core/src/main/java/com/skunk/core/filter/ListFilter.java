@@ -1,9 +1,8 @@
 package com.skunk.core.filter;
 
-import java.util.Map;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 /**
  * 列表接口过滤器定义
@@ -57,6 +56,19 @@ public interface ListFilter {
      * @return
      */
     Map<String, Object> getParams();
+
+    /**
+     * @param paramKey
+     * @return
+     */
+    Object getParamValue(String paramKey);
+
+    /**
+     * @param paramKey
+     * @return
+     */
+    String getParamValueToString(String paramKey);
+
 
     /**
      * 请求参数转化成对象

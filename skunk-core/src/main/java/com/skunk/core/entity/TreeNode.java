@@ -1,12 +1,11 @@
 package com.skunk.core.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.skunk.core.BaseEntity;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 树型数据结构的节点
@@ -22,9 +21,7 @@ public class TreeNode extends BaseEntity {
 
     protected int id;
     protected int parentId;
-    /**
-     *
-     */
+
     protected List<TreeNode> children = new ArrayList<TreeNode>();
 
     public void add(TreeNode node) {

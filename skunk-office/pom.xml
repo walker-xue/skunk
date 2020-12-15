@@ -11,6 +11,7 @@
     <artifactId>skunk-office</artifactId>
     <description>
         基于POI打造Office办公文档组件。
+        为了丰富的功能，此组件强依赖 LibreOffice
     </description>
 
     <dependencies>
@@ -47,6 +48,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-expression</artifactId>
         </dependency>
+        <!--  test -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>

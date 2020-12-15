@@ -2,7 +2,6 @@ package com.skunk.oss.data.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.skunk.core.BaseEntity;
-import lombok.*;
 
 import java.util.Date;
 

@@ -1,15 +1,14 @@
 package com.skunk.core.filter;
 
-import java.util.Map;
-
-import com.skunk.core.utils.ObjectUtils;
-
 import com.skunk.core.utils.ColumnPropertyUtils;
-
+import com.skunk.core.utils.ObjectUtils;
 import com.skunk.core.utils.StringUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * 分页插件实现
@@ -56,6 +55,19 @@ public class PageFilterHelper implements PageFilter {
     @Override
     public Map<String, Object> getParams() {
         return params;
+    }
+
+    @Override
+    public Object getParamValue(String paramKey) {
+        return params.get(paramKey);
+    }
+
+    @Override
+    public String getParamValueToString(String paramKey) {
+        Object o = params.get(paramKey);
+        if (Objects.isNull(o))
+            return null;
+        return o.toString();
     }
 
     @Override

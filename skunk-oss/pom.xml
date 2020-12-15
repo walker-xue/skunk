@@ -13,6 +13,6 @@
 
     <modules>
         <module>skunk-oss-aliyun</module>
-        <module>skunk-oss-qiniu</module>
+<!--        <module>skunk-oss-qiniu</module>-->
     </modules>
 </project>

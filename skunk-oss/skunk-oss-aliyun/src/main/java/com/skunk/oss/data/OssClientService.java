@@ -4,10 +4,10 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.PutObjectResult;
 import com.skunk.core.exception.BaseException;
+import com.skunk.core.utils.StringUtils;
 import com.skunk.oss.config.OssConfigProperties;
 import com.skunk.oss.event.OssEvent;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -36,8 +36,7 @@ public class OssClientService {
     /**
      * 获取CDN路径
      *
-     * @param path 路径
-     * @param key  文件�?
+     * @param key 文件�?
      */
     public String getCdnUrl(String key) {
         if (StringUtils.isNotEmpty(key)) {
@@ -50,9 +49,8 @@ public class OssClientService {
     /**
      * 上传文件 同步
      *
-     * @param file 上传的文�?
-     * @param path 路径
-     * @param key  文件�?
+     * @param file   上传的文�?
+     * @param ossKey 文件�?
      * @return 返回文件MD5
      */
     public String syncUploadFile(File file, String ossKey) {
