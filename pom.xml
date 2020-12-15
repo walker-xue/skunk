@@ -97,6 +97,7 @@
         <module>skunk-data</module>
         <module>skunk-office</module>
         <module>skunk-oss</module>
+        <module>skunk-mail</module>
     </modules>
 
     <dependencies>

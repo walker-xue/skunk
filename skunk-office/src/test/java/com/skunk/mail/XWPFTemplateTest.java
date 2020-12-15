@@ -1,4 +1,4 @@
-package com.skunk.office.word;
+package com.skunk.mail;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
