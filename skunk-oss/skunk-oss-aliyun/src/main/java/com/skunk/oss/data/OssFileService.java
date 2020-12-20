@@ -3,7 +3,7 @@ package com.skunk.oss.data;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.skunk.core.filter.PageFilter;
-import com.skunk.core.utils.StringUtils;
+import com.skunk.core.utils.String2Utils;
 import com.skunk.data.SqlMapper;
 import com.skunk.oss.config.OssConfigProperties;
 import com.skunk.oss.data.domain.OssFile;
@@ -106,17 +106,17 @@ public class OssFileService {
     public PageInfo<OssFile> getPageList(PageFilter pageFilter) {
         StringBuffer querySql = new StringBuffer(LIST_SQL);
 
-
-        if (StringUtils.isNotBlank(pageFilter.getParamValueToString("fileType"))) {
+        pageFilter.getParamValueToString("fileType").ifPresent(value -> {
             querySql.append(" and file_type=#{fileType} ");
-        }
-        if (StringUtils.isNotBlank(pageFilter.getParamValueToString("fileName"))) {
+        });
+
+        pageFilter.getParamValueToString("fileName").ifPresent(value -> {
             querySql.append(" and name like concat('%',#{fileName},'%') ");
-        }
+        });
 
         PageHelper.startPage(pageFilter.getPageNo(), pageFilter.getPageSize(), pageFilter.getOrderBy());
         List<OssFile> ossFiles = sqlMapper.selectList(querySql.toString(), pageFilter.getParams(), OssFile.class);
-        ossFiles.stream().filter(item -> StringUtils.isNotBlank(item.getOssKey())).forEach(item -> item.setCdnPath(configProperties.getCdnPath() + (item.getOssKey().startsWith("/") ? "" : "/") + item.getOssKey()));
+        ossFiles.stream().filter(item -> String2Utils.isNotBlank(item.getOssKey())).forEach(item -> item.setCdnPath(configProperties.getCdnPath() + (item.getOssKey().startsWith("/") ? "" : "/") + item.getOssKey()));
         return new PageInfo<>(ossFiles);
     }
 

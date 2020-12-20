@@ -16,7 +16,7 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Component;
 
-import com.skunk.core.collectors.CollectionUtils;
+import com.skunk.core.collectors.Collection2Utils;
 
 /**
  * SQL mapper工具
@@ -51,7 +51,7 @@ public class SqlMapper {
      * @return back query result T
      */
     private <T> T getOne(List<T> list) {
-        if (CollectionUtils.isEmpty(list)) {
+        if (Collection2Utils.isEmpty(list)) {
             return null;
         }
         if (list.size() == 1) {

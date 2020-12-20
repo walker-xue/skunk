@@ -1,14 +1,9 @@
 package com.skunk.core.filter;
 
-import com.skunk.core.utils.ColumnPropertyUtils;
-import com.skunk.core.utils.ObjectUtils;
-import com.skunk.core.utils.StringUtils;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 分页插件实现
@@ -16,31 +11,81 @@ import java.util.Objects;
  * @author walker
  * @since 2019年5月13日
  */
-
 @Getter
 @Setter
-@Builder
-public class PageFilterHelper implements PageFilter {
+public class PageFilterHelper extends ListFilterHelper implements PageFilter {
 
-    /**
-     * 当前页
-     */
+    /* 当前页 */
     private int pageNo;
-    /**
-     * 每页显示条数
-     */
+
+    /* 每页显示条数 */
     private int pageSize;
 
-    private boolean notQueryTotalNum;
+    /* 是否计算总页数 */
+    private boolean isQueryTotal;
 
-    private SortOrder.Type orderMethod;
 
-    private String orderField;
+    PageFilterHelper(SortOrder.Type orderMethod, String orderField, boolean isOrderBy, Map<String, Object> params) {
+        super(orderMethod, orderField, isOrderBy, params);
+    }
 
-    /**
-     * 查询参会
-     */
-    private Map<String, Object> params;
+
+    private PageFilterHelper(Builder builder) {
+        super();
+        this.pageNo = builder.pageNo;
+        this.pageSize = builder.pageSize;
+        this.isQueryTotal = builder.isQueryTotal;
+        this.params = builder.params;
+        this.orderField = builder.orderField;
+        this.orderMethod = builder.orderMethod;
+    }
+
+    public static class Builder {
+
+        private int pageNo;
+        private int pageSize;
+        private boolean isQueryTotal;
+        private Map<String, Object> params;
+        private String orderField;
+        private SortOrder.Type orderMethod;
+
+
+        public Builder pageNo(int pageNo) {
+            this.pageNo = pageNo;
+            return this;
+        }
+
+        public Builder pageSize(int pageSize) {
+            this.pageSize = pageSize;
+            return this;
+        }
+
+        public Builder type(boolean isQueryTotal) {
+            this.isQueryTotal = isQueryTotal;
+            return this;
+        }
+
+        public Builder params(Map<String, Object> params) {
+            this.params = params;
+            return this;
+        }
+
+        public Builder orderField(String orderField) {
+            this.orderField = orderField;
+            return this;
+        }
+
+        public Builder orderMethod(SortOrder.Type orderMethod) {
+            this.orderMethod = orderMethod;
+            return this;
+        }
+
+
+        public PageFilterHelper build() {
+            return new PageFilterHelper(this);
+        }
+    }
+
 
     @Override
     public int getPageNo() {
@@ -52,28 +97,6 @@ public class PageFilterHelper implements PageFilter {
         return pageSize;
     }
 
-    @Override
-    public Map<String, Object> getParams() {
-        return params;
-    }
-
-    @Override
-    public Object getParamValue(String paramKey) {
-        return params.get(paramKey);
-    }
-
-    @Override
-    public String getParamValueToString(String paramKey) {
-        Object o = params.get(paramKey);
-        if (Objects.isNull(o))
-            return null;
-        return o.toString();
-    }
-
-    @Override
-    public <T> T paramsToObject(Class<T> clazz) {
-        return ObjectUtils.mapToObject(this.params, clazz);
-    }
 
     @Override
     public ListFilter listFilter() {
@@ -85,27 +108,15 @@ public class PageFilterHelper implements PageFilter {
             .build();
     }
 
-    /**
-     * 前端排序字段转成SQL 排序语句
-     *
-     * @return
-     */
+
     @Override
-    public String getOrderBy() {
-        if (StringUtils.isEmpty(orderField)) {
-            return "";
-        }
-        return ColumnPropertyUtils.propertyToColumn(orderField).concat(" " + orderMethod.getSort());
+    public void setIsQueryTotal(boolean notQueryTotalNum) {
+        this.isQueryTotal = notQueryTotalNum;
     }
 
     @Override
-    public void setNotQueryTotalNum(Boolean notQueryTotalNum) {
-        this.notQueryTotalNum = notQueryTotalNum;
-    }
-
-    @Override
-    public boolean isQueryTotalNum() {
-        return !notQueryTotalNum;
+    public boolean isQueryTotal() {
+        return !isQueryTotal;
     }
 
 }

@@ -5,17 +5,23 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
+/**
+ *
+ */
 @Component
-public class MailService {
+public class MailClientService {
 
     @Autowired
     MailProperties mailProperties;
 
     @Autowired
-    private JavaMailSender javaMailSender;
+    JavaMailSender javaMailSender;
 
 
     public void sendSimpleMail(String subject, String text) {
+
+
+
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(mailProperties.getFrom());
         mailMessage.setTo(mailProperties.getTo());

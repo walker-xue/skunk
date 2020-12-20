@@ -1,8 +1,8 @@
 package com.skunk.web;
 
-import com.skunk.core.collectors.CollectionUtils;
+import com.skunk.core.collectors.Collection2Utils;
 import com.skunk.core.filter.*;
-import com.skunk.core.utils.StringUtils;
+import com.skunk.core.utils.String2Utils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
@@ -43,9 +43,9 @@ public class HttpParamUtils {
     public static HashMap<String, String> requestToMap(@NotBlank HttpServletRequest request) {
         HashMap<String, String> params = new HashMap<>();
         Enumeration<String> names = request.getParameterNames();
-        Collections.list(names).stream().filter(name -> StringUtils.isNotBlank(name)).forEach(name -> {
+        Collections.list(names).stream().filter(name -> String2Utils.isNotBlank(name)).forEach(name -> {
             String parameter = request.getParameter(name);
-            if (StringUtils.isNotBlank(parameter)) {
+            if (String2Utils.isNotBlank(parameter)) {
                 params.put(name, request.getParameter(name));
             }
         });
@@ -61,7 +61,7 @@ public class HttpParamUtils {
     public static HashMap<String, Object> requestToMapValueObject(@NotBlank HttpServletRequest request) {
         HashMap<String, Object> params = new HashMap<>();
         Enumeration<String> names = request.getParameterNames();
-        Collections.list(names).stream().filter(name -> StringUtils.isNotBlank(name)).forEach(name -> {
+        Collections.list(names).stream().filter(name -> String2Utils.isNotBlank(name)).forEach(name -> {
             params.put(name, request.getParameter(name));
         });
         return params;
@@ -74,12 +74,12 @@ public class HttpParamUtils {
      * @return
      */
     public static int pageSize(Map<String, Object> params) {
-        if (CollectionUtils.isEmpty(params) || !params.containsKey(PageFilter.PAGE_SIZE)) {
+        if (Collection2Utils.isEmpty(params) || !params.containsKey(PageFilter.PAGE_SIZE)) {
             return PageFilter.DEFAULT_PAGE_SIZE;
         }
 
         Object pageSizeObj = params.get(PageFilter.PAGE_SIZE);
-        if (!Objects.isNull(pageSizeObj) && StringUtils.isNotBlank(pageSizeObj.toString())) {
+        if (!Objects.isNull(pageSizeObj) && String2Utils.isNotBlank(pageSizeObj.toString())) {
             return Integer.parseInt(pageSizeObj.toString());
         }
 
@@ -93,13 +93,13 @@ public class HttpParamUtils {
      * @return
      */
     public static int pageNo(Map<String, Object> params) {
-        if (CollectionUtils.isEmpty(params) || !params.containsKey(PageFilter.PAGE_NO)) {
+        if (Collection2Utils.isEmpty(params) || !params.containsKey(PageFilter.PAGE_NO)) {
             return PageFilter.DEFAULT_PAGE_INDEX;
         }
 
         Object pageNoObj = params.get(PageFilter.PAGE_NO);
 
-        if (!Objects.isNull(pageNoObj) && StringUtils.isNotBlank(pageNoObj.toString())) {
+        if (!Objects.isNull(pageNoObj) && String2Utils.isNotBlank(pageNoObj.toString())) {
 
             int pageNo = Integer.parseInt(pageNoObj.toString());
 
@@ -123,7 +123,7 @@ public class HttpParamUtils {
             .params(params)
             .build();
 
-        if (!Objects.isNull(params.get(SortOrder.ORDER_BY_KEY)) && StringUtils.isNotBlank(params.get(SortOrder.ORDER_BY_KEY).toString())) {
+        if (!Objects.isNull(params.get(SortOrder.ORDER_BY_KEY)) && String2Utils.isNotBlank(params.get(SortOrder.ORDER_BY_KEY).toString())) {
             listFilter.setOrderField(params.get(SortOrder.ORDER_BY_KEY).toString());
             listFilter.setOrderMethod(SortOrder.Type.valueCode(SortOrder.ORDER_METHOD_KEY));
 
@@ -144,7 +144,7 @@ public class HttpParamUtils {
         int pageNo = HttpParamUtils.pageNo(params);
         int pageSize = HttpParamUtils.pageSize(params);
 
-        PageFilter pageFilter = PageFilterHelper.builder()
+        PageFilter pageFilter = new PageFilterHelper.Builder()
             .pageNo(pageNo)
             .pageSize(pageSize)
             .params(params)
@@ -154,7 +154,7 @@ public class HttpParamUtils {
 
         if (!Objects.isNull(value)) {
             String paramValue = value.toString();
-            if (StringUtils.isNotBlank(paramValue)) {
+            if (String2Utils.isNotBlank(paramValue)) {
                 pageFilter.setOrderField(paramValue);
                 pageFilter.setOrderMethod(SortOrder.Type.valueCode(SortOrder.ORDER_METHOD_KEY));
 

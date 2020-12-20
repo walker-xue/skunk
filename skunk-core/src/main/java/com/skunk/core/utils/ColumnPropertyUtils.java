@@ -1,5 +1,7 @@
 package com.skunk.core.utils;
 
+import org.springframework.util.StringUtils;
+
 /**
  * 数据库字段转成对象的属性
  *

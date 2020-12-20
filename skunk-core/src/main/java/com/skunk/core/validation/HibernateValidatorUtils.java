@@ -9,7 +9,7 @@ import javax.validation.Validator;
 
 import org.hibernate.validator.HibernateValidator;
 
-import com.skunk.core.collectors.CollectionUtils;
+import com.skunk.core.collectors.Collection2Utils;
 
 /**
  * @author walker
@@ -48,7 +48,7 @@ public class HibernateValidatorUtils {
 
         Set<ConstraintViolation<T>> validate = validator.validate(obj, groups);
 
-        if (CollectionUtils.isNotEmpty(validate)) {
+        if (Collection2Utils.isNotEmpty(validate)) {
             throw new ConstraintViolationException(validate);
         }
     }

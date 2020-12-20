@@ -4,7 +4,7 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.PutObjectResult;
 import com.skunk.core.exception.BaseException;
-import com.skunk.core.utils.StringUtils;
+import com.skunk.core.utils.String2Utils;
 import com.skunk.oss.config.OssConfigProperties;
 import com.skunk.oss.event.OssEvent;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +39,7 @@ public class OssClientService {
      * @param key 文件�?
      */
     public String getCdnUrl(String key) {
-        if (StringUtils.isNotEmpty(key)) {
+        if (String2Utils.isNotEmpty(key)) {
             return configProperties.getCdnPath().concat("/" + key);
         }
         log.error("获取CDN路径失败 参数错误： key=" + key);

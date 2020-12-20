@@ -34,14 +34,14 @@ public interface PageFilter extends ListFilter {
     /**
      * 设置是否查询总数量
      *
-     * @param notQueryTotalNum
+     * @param isQueryTotal
      */
-    void setNotQueryTotalNum(Boolean notQueryTotalNum);
+    void setIsQueryTotal(boolean isQueryTotal);
 
     /**
      * 设置是否查询总数量
      */
-    boolean isQueryTotalNum();
+    boolean isQueryTotal();
 
     /**
      * 获取每页中多少条

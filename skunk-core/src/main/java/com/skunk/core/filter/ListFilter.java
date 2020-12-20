@@ -3,6 +3,7 @@ package com.skunk.core.filter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 列表接口过滤器定义
@@ -61,13 +62,13 @@ public interface ListFilter {
      * @param paramKey
      * @return
      */
-    Object getParamValue(String paramKey);
+    Optional<Object> getParamValue(String paramKey);
 
     /**
      * @param paramKey
      * @return
      */
-    String getParamValueToString(String paramKey);
+    Optional<String> getParamValueToString(String paramKey);
 
 
     /**
@@ -77,5 +78,5 @@ public interface ListFilter {
      * @param <T>
      * @return
      */
-    <T> T paramsToObject(Class<T> clazz);
+    <T> Optional<T> paramsToObject(Class<T> clazz);
 }

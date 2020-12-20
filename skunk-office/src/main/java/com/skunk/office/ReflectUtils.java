@@ -1,6 +1,6 @@
 package com.skunk.office;
 
-import com.skunk.core.utils.StringUtils;
+import com.skunk.core.utils.String2Utils;
 import com.skunk.core.validation.Validate;
 import com.skunk.office.excel.ExcelColumn;
 import lombok.extern.slf4j.Slf4j;
@@ -177,7 +177,7 @@ public class ReflectUtils {
                         continue;
                     }
                     String value = o.toString();
-                    if (StringUtils.isEmpty(value)) {
+                    if (String2Utils.isEmpty(value)) {
                         continue;
                     }
                     if (type.equals("class java.lang.String")) {
@@ -256,11 +256,11 @@ public class ReflectUtils {
         Objects.requireNonNull(value, "date string is null.");
 
         Date object = null;
-        if (StringUtils.filterNull(value).length() == 7) {
+        if (String2Utils.filterNull(value).length() == 7) {
             object = DateUtils.parseDate(value, "yyyy-MM");
-        } else if (StringUtils.filterNull(value).length() > 7 && StringUtils.filterNull(value).length() <= 10) {
+        } else if (String2Utils.filterNull(value).length() > 7 && String2Utils.filterNull(value).length() <= 10) {
             object = DateUtils.parseDate(value, "yyyy-MM-dd");
-        } else if (StringUtils.filterNull(value).length() > 10) {
+        } else if (String2Utils.filterNull(value).length() > 10) {
             object = DateUtils.parseDate(value, "yyyy-MM-dd HH:mm:ss");
         }
         return object;

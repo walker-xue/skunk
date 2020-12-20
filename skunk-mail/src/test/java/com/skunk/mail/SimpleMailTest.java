@@ -11,11 +11,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class SimpleMailTest {
  
 	@Autowired
-	private MailService mailService;
+	private MailClientService mailClientService;
  
 	@Test
 	public void sendMail(){
  
-		mailService.sendSimpleMail("测试Springboot发送邮件", "发送邮件...");
+		mailClientService.sendSimpleMail("测试Springboot发送邮件", "发送邮件...");
 	}
 }

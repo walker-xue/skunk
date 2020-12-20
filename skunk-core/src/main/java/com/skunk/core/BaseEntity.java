@@ -1,6 +1,6 @@
 package com.skunk.core;
 
-import com.skunk.core.utils.JSONUtils;
+import org.springframework.core.style.ToStringCreator;
 
 import java.io.Serializable;
 
@@ -19,6 +19,6 @@ public abstract class BaseEntity implements Serializable {
 
     @Override
     public String toString() {
-        return JSONUtils.toJson(this);
+        return new ToStringCreator(this).toString();
     }
 }
