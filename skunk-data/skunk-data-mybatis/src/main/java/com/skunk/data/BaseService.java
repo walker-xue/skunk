@@ -7,7 +7,6 @@ import com.skunk.core.filter.ListFilter;
 import com.skunk.core.filter.PageFilter;
 import com.skunk.core.filter.PageResult;
 import com.skunk.core.utils.ReflectionUtils;
-import com.skunk.core.utils.String2Utils;
 import com.skunk.data.utils.BasisMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +59,7 @@ public class BaseService<T> implements IBaseService<T> {
         }
         return mapper.insertList(entitys);
     }
+
     /**
      * @param entitys
      * @return
@@ -154,28 +154,22 @@ public class BaseService<T> implements IBaseService<T> {
     @Override
     public List<T> selectList(ListFilter listFilter) {
         Weekend<T> weekend = new Weekend<>(this.entityClass);
-        if (Collection2Utils.isNotEmpty(listFilter.getParams())) {
-
-        }
-        if (String2Utils.isNotBlank(listFilter.getOrderBy()) && listFilter.isOrderBy()) {
-            weekend.setOrderByClause(listFilter.getOrderBy());
-        }
+        listFilter.getOrderBy().ifPresent(order -> {
+            weekend.setOrderByClause(order);
+        });
         return mapper.selectByExample(weekend);
     }
 
     /**
      * 通过分页的形式查询数据
      *
-     * @param operatorId
-     *     用户Id
-     * @param pageFilter
-     *     分页过滤参数
+     * @param operatorId 用户Id
+     * @param pageFilter 分页过滤参数
      * @return 返回查询结果
      */
     @Override
     public PageResult<T> selectPage(String operatorId, PageFilter pageFilter) {
-        PageHelper.startPage(pageFilter.getPageNo(), pageFilter.getPageSize(), pageFilter.getOrderBy());
-
+        PageHelper.startPage(pageFilter.getPageNo(), pageFilter.getPageSize(), pageFilter.getOrderBy().orElse(""));
         PageInfo<T> tPageInfo = new PageInfo<>(selectList(operatorId, pageFilter.listFilter()));
         return new PageResult<T>(tPageInfo.getTotal(), tPageInfo.getList(), pageFilter);
     }

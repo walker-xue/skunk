@@ -18,15 +18,7 @@ public interface ListFilter {
      *
      * @return
      */
-    String getOrderBy();
-
-    /**
-     * 设置是否排序
-     *
-     * @return
-     */
-    default void setIsOrderBy(boolean isOrderBy) {
-    }
+    Optional<String> getOrderBy();
 
     /**
      * 是否排序

@@ -25,8 +25,8 @@ public class PageFilterHelper extends ListFilterHelper implements PageFilter {
     private boolean isQueryTotal;
 
 
-    PageFilterHelper(SortOrder.Type orderMethod, String orderField, boolean isOrderBy, Map<String, Object> params) {
-        super(orderMethod, orderField, isOrderBy, params);
+    PageFilterHelper(SortOrder.Type orderMethod, String orderField, Map<String, Object> params) {
+        super(orderMethod, orderField, params);
     }
 
 

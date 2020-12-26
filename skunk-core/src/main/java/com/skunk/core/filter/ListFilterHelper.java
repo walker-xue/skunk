@@ -28,23 +28,17 @@ public class ListFilterHelper implements ListFilter {
     /* 排序字段 */
     protected String orderField;
 
-    /* 是否排序，默认值需要排序 */
-    protected boolean isOrderBy;
-
     /* 查询参数 */
     protected Map<String, Object> params;
 
-    public ListFilterHelper(SortOrder.Type orderMethod, String orderField, boolean isOrderBy, Map<String, Object> params) {
+    public ListFilterHelper(SortOrder.Type orderMethod, String orderField, Map<String, Object> params) {
         this.orderMethod = orderMethod;
         this.orderField = orderField;
-        this.isOrderBy = isOrderBy;
         this.params = params;
     }
 
     public ListFilterHelper() {
     }
-
-
 
     /**
      * @return
@@ -98,20 +92,10 @@ public class ListFilterHelper implements ListFilter {
      * @return
      */
     @Override
-    public String getOrderBy() {
+    public Optional<String> getOrderBy() {
         if (String2Utils.isBlank(orderField)) {
-            return String2Utils.EMPTY;
+            return Optional.empty();
         }
-        return ColumnPropertyUtils.propertyToColumn(orderField).concat(" " + orderMethod.getSort());
-    }
-
-    @Override
-    public void setIsOrderBy(boolean isOrderBy) {
-        this.isOrderBy = isOrderBy;
-    }
-
-    @Override
-    public boolean isOrderBy() {
-        return isOrderBy;
+        return Optional.of(ColumnPropertyUtils.propertyToColumn(orderField).concat(" " + orderMethod.getSort()));
     }
 }

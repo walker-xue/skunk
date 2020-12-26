@@ -51,13 +51,6 @@ public interface PageFilter extends ListFilter {
     int getPageSize();
 
     /**
-     * 获取排序字符串
-     *
-     * @return
-     */
-    String getOrderBy();
-
-    /**
      * 获取List查询参数
      *
      * @return

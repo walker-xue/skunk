@@ -114,7 +114,7 @@ public class OssFileService {
             querySql.append(" and name like concat('%',#{fileName},'%') ");
         });
 
-        PageHelper.startPage(pageFilter.getPageNo(), pageFilter.getPageSize(), pageFilter.getOrderBy());
+        PageHelper.startPage(pageFilter.getPageNo(), pageFilter.getPageSize(), pageFilter.getOrderBy().orElse(""));
         List<OssFile> ossFiles = sqlMapper.selectList(querySql.toString(), pageFilter.getParams(), OssFile.class);
         ossFiles.stream().filter(item -> String2Utils.isNotBlank(item.getOssKey())).forEach(item -> item.setCdnPath(configProperties.getCdnPath() + (item.getOssKey().startsWith("/") ? "" : "/") + item.getOssKey()));
         return new PageInfo<>(ossFiles);
