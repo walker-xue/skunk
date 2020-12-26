@@ -1,7 +1,9 @@
-package com.github.skunk.oss.config;
+package com.skunk.oss.config;
 
-import java.util.concurrent.ThreadPoolExecutor;
-
+import com.qiniu.common.Zone;
+import com.qiniu.storage.BucketManager;
+import com.qiniu.storage.UploadManager;
+import com.qiniu.util.Auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -10,10 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import com.qiniu.common.Zone;
-import com.qiniu.storage.BucketManager;
-import com.qiniu.storage.UploadManager;
-import com.qiniu.util.Auth;
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 /**

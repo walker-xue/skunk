@@ -1,18 +1,16 @@
 package com.donkeycode.boot.data;
 
-import java.util.Collections;
-import java.util.Date;
-
+import com.donkeycode.boot.BaseTest;
+import com.skunk.core.filter.PageFilter;
+import com.skunk.core.filter.PageFilterHelper;
+import com.skunk.core.filter.SortOrder;
+import com.skunk.oss.data.OssFileService;
+import com.skunk.oss.data.domain.OssFile;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.donkeycode.boot.BaseTest;
-import com.github.skunk.core.Constants;
-import com.github.skunk.core.filter.PageFilter;
-import com.github.skunk.core.filter.PageFilterHelper;
-import com.github.skunk.core.filter.SortOrder;
-import com.github.skunk.oss.data.OssFileService;
-import com.github.skunk.oss.data.domain.OssFile;
+import java.util.Collections;
+import java.util.Date;
 
 public class OssFileServiceTest extends BaseTest {
 
@@ -37,7 +35,7 @@ public class OssFileServiceTest extends BaseTest {
     @Test
     public void getPageList() {
 
-        PageFilter pageProvider = PageFilterHelper.builder()
+        PageFilter pageProvider = new PageFilterHelper.Builder()
             .pageNo(3)
             .pageSize(3)
             .orderField("createTime")

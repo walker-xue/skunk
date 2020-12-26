@@ -1,15 +1,9 @@
-package com.github.skunk.oss.data.domain;
-
-import java.util.Date;
+package com.skunk.oss.data.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.github.skunk.core.BaseEntity;
+import com.skunk.core.BaseEntity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.Date;
 
 /**
  * @author walker

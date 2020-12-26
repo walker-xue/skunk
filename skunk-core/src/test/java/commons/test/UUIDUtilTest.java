@@ -1,17 +1,17 @@
 package commons.test;
 
-import java.util.UUID;
+import com.skunk.core.utils.JdkUUIDGenerator;
 
-import com.github.skunk.core.utils.UUIDUtils;
+import java.util.UUID;
 
 public class UUIDUtilTest {
 
     public static void main(String[] args) {
 
         for (int i = 0; i < 20000; i++) {
-            String randomUUID = UUIDUtils.get8UUID();
+            String randomUUID = JdkUUIDGenerator.generateRandom8();
 
-            System.out.println("randomUUID:" + randomUUID+";"+randomUUID.length());
+            System.out.println("randomUUID:" + randomUUID + ";" + randomUUID.length());
         }
 
         UUID uuid = UUID.randomUUID();
@@ -22,11 +22,10 @@ public class UUIDUtilTest {
         //        System.out.println("node:" + uuid.node());
         //        System.out.println("timestamp:" + uuid.timestamp());
         for (int i = 0; i < 12; i++) {
-//            UUID uuid2 = UUID.nameUUIDFromBytes(new String("abc").getBytes());
+            //            UUID uuid2 = UUID.nameUUIDFromBytes(new String("abc").getBytes());
             UUID uuid2 = UUID.randomUUID();
             System.out.println("version:" + uuid2.toString());
         }
-
 
     }
 

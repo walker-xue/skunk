@@ -34,7 +34,6 @@ public class NestingMapTest {
         System.out.println(extract);
     }
 
-
     private static Map<String, Object> traverseMap(Map<String, Object> obj) {
         Map<String, Object> extract = new HashMap<>();
         obj.forEach((key, value) -> {

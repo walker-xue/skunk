@@ -1,25 +1,23 @@
-package com.github.skunk.oss.data;
+package com.skunk.oss.data;
 
-import java.io.File;
-import java.sql.Types;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
-import javax.validation.constraints.NotNull;
-
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.skunk.core.collectors.CollectorUtils;
+import com.skunk.core.filter.PageFilter;
+import com.skunk.data.SqlMapper;
+import com.skunk.oss.config.OssConfigProperties;
+import com.skunk.oss.data.domain.OssFile;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.github.skunk.core.collectors.CollectorUtils;
-import com.github.skunk.core.filter.PageFilter;
-import com.github.skunk.data.SqlMapper;
-import com.github.skunk.oss.config.OssConfigProperties;
-import com.github.skunk.oss.data.domain.OssFile;
+import javax.validation.constraints.NotNull;
+import java.io.File;
+import java.sql.Types;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * @author walker
