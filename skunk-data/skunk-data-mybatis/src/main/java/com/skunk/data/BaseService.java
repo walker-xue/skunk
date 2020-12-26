@@ -2,12 +2,12 @@ package com.skunk.data;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.skunk.core.collectors.CollectionUtils;
+import com.skunk.core.collectors.Collection2Utils;
 import com.skunk.core.filter.ListFilter;
 import com.skunk.core.filter.PageFilter;
 import com.skunk.core.filter.PageResult;
 import com.skunk.core.utils.ReflectionUtils;
-import com.skunk.core.utils.StringUtils;
+import com.skunk.core.utils.String2Utils;
 import com.skunk.data.utils.BasisMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +55,7 @@ public class BaseService<T> implements IBaseService<T> {
 
     @Override
     public int insertList(List<T> entitys) {
-        if (CollectionUtils.isEmpty(entitys)) {
+        if (Collection2Utils.isEmpty(entitys)) {
             return 0;
         }
         return mapper.insertList(entitys);
@@ -66,7 +66,7 @@ public class BaseService<T> implements IBaseService<T> {
      */
     @Override
     public int batchInsertList(List<T> entitys) {
-        if (CollectionUtils.isEmpty(entitys)) {
+        if (Collection2Utils.isEmpty(entitys)) {
             return 0;
         }
         return mapper.batchInsertList(entitys);
@@ -79,7 +79,7 @@ public class BaseService<T> implements IBaseService<T> {
 
     @Override
     public int deleteByKeys(List<?> ids) {
-        if (CollectionUtils.isEmpty(ids)) {
+        if (Collection2Utils.isEmpty(ids)) {
             return 0;
         }
         String joinId = ids.stream().map(id -> id.toString()).collect(Collectors.joining(","));
@@ -142,7 +142,7 @@ public class BaseService<T> implements IBaseService<T> {
      */
     @Override
     public List<T> selectByKeys(List<String> ids) {
-        return mapper.selectByIds(CollectionUtils.join(ids, ","));
+        return mapper.selectByIds(Collection2Utils.join(ids, ","));
     }
 
     /**
@@ -154,10 +154,10 @@ public class BaseService<T> implements IBaseService<T> {
     @Override
     public List<T> selectList(ListFilter listFilter) {
         Weekend<T> weekend = new Weekend<>(this.entityClass);
-        if (CollectionUtils.isNotEmpty(listFilter.getParams())) {
+        if (Collection2Utils.isNotEmpty(listFilter.getParams())) {
 
         }
-        if (StringUtils.isNotBlank(listFilter.getOrderBy()) && listFilter.isOrderBy()) {
+        if (String2Utils.isNotBlank(listFilter.getOrderBy()) && listFilter.isOrderBy()) {
             weekend.setOrderByClause(listFilter.getOrderBy());
         }
         return mapper.selectByExample(weekend);

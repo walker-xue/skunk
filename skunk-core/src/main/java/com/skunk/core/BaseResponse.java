@@ -19,10 +19,10 @@ import java.sql.Timestamp;
 @Getter
 public class BaseResponse<T> extends BaseEntity {
 
-    public String message;
-    public int code = 200;
-    private Timestamp timestamp;
-    private T data;
+    protected String message;
+    protected int code = 200;
+    protected Timestamp timestamp;
+    protected T data;
 
     public BaseResponse() {
         this.timestamp = new Timestamp(System.currentTimeMillis());

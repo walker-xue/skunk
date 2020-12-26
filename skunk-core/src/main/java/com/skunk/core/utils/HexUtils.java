@@ -1,8 +1,6 @@
 package com.skunk.core.utils;
 
-import com.skunk.core.validation.Validate;
-
-import java.io.IOException;
+import org.springframework.util.Assert;
 
 
 /**
@@ -15,19 +13,18 @@ public class HexUtils {
     /**
      * 转化十六进制编码为字符串
      *
-     * @param s
+     * @param src
      * @return
-     * @throws IOException
      */
-    public static String toStringHex(String s) throws IOException {
+    public static String toHex(String src) {
 
-        Validate.notBlank(s);
+        Assert.notNull(src, " to String hex is null");
 
-        byte[] baKeyword = new byte[s.length() / 2];
+        byte[] baKeyword = new byte[src.length() / 2];
         for (int i = 0; i < baKeyword.length; i++) {
-            baKeyword[i] = (byte) (0xff & Integer.parseInt(s.substring(i * 2, i * 2 + 2), 16));
+            baKeyword[i] = (byte) (0xff & Integer.parseInt(src.substring(i * 2, i * 2 + 2), 16));
         }
-        return new String(baKeyword, CharsetUtils.UTF_8);
+        return new String(baKeyword, CharsetUtils.CHARSET_UTF_8);
     }
 
 }

@@ -1,14 +1,15 @@
 package com.skunk.core.filter;
 
 import com.skunk.core.utils.ColumnPropertyUtils;
-import com.skunk.core.utils.ObjectUtils;
-import com.skunk.core.utils.StringUtils;
+import com.skunk.core.utils.Objects2;
+import com.skunk.core.utils.String2Utils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 分页插件实现
@@ -21,35 +22,63 @@ import java.util.Objects;
 @Builder
 public class ListFilterHelper implements ListFilter {
 
-    // "排序方式"
-    private SortOrder.Type orderMethod;
-    // "排序字段"
-    private String orderField;
-    // "是否排序，默认值需要排序"
-    private boolean isOrderBy = true;
+    /* 排序方式 */
+    protected SortOrder.Type orderMethod;
+
+    /* 排序字段 */
+    protected String orderField;
+
+    /* 是否排序，默认值需要排序 */
+    protected boolean isOrderBy;
+
+    /* 查询参数 */
+    protected Map<String, Object> params;
+
+    public ListFilterHelper(SortOrder.Type orderMethod, String orderField, boolean isOrderBy, Map<String, Object> params) {
+        this.orderMethod = orderMethod;
+        this.orderField = orderField;
+        this.isOrderBy = isOrderBy;
+        this.params = params;
+    }
+
+    public ListFilterHelper() {
+    }
+
+
 
     /**
-     * 查询参会
+     * @return
      */
-    private Map<String, Object> params;
-
     @Override
     public Map<String, Object> getParams() {
         return params;
     }
 
+    /**
+     * @param paramKey
+     * @return
+     */
     @Override
-    public Object getParamValue(String paramKey) {
-        return params.get(paramKey);
+    public Optional<Object> getParamValue(String paramKey) {
+
+        Objects2.requireNonBlank(paramKey);
+
+        return Optional.of(params.get(paramKey));
     }
 
+    /**
+     * @param paramKey
+     * @return
+     */
     @Override
-    public String getParamValueToString(String paramKey) {
+    public Optional<String> getParamValueToString(String paramKey) {
+
+        Objects2.requireNonBlank(paramKey);
 
         Object o = params.get(paramKey);
         if (Objects.isNull(o))
-            return null;
-        return o.toString();
+            return Optional.empty();
+        return Optional.of(o.toString());
     }
 
     /**
@@ -58,8 +87,9 @@ public class ListFilterHelper implements ListFilter {
      * @return
      */
     @Override
-    public <T> T paramsToObject(Class<T> clazz) {
-        return ObjectUtils.mapToObject(params, clazz);
+    public <T> Optional<T> paramsToObject(Class<T> clazz) {
+
+        return Objects2.mapToBean(params, clazz);
     }
 
     /**
@@ -69,8 +99,8 @@ public class ListFilterHelper implements ListFilter {
      */
     @Override
     public String getOrderBy() {
-        if (StringUtils.isEmpty(orderField)) {
-            return StringUtils.EMPTY;
+        if (String2Utils.isBlank(orderField)) {
+            return String2Utils.EMPTY;
         }
         return ColumnPropertyUtils.propertyToColumn(orderField).concat(" " + orderMethod.getSort());
     }

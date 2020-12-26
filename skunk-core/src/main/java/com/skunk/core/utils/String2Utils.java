@@ -1,25 +1,44 @@
 package com.skunk.core.utils;
 
-import com.skunk.core.collectors.CollectionUtils;
-import com.skunk.core.validation.Validate;
+import org.springframework.util.Assert;
+import org.springframework.util.Base64Utils;
+import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotNull;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * 扩展 Apache 字符串工具类（StringUtils）
+ * 字符串工具类（CharSequenceUtils）
  *
  * @author walker
  * @since 2018年12月31日
  */
-public class StringUtils extends org.springframework.util.StringUtils {
+public class String2Utils extends StringUtils {
 
     public static final String DOT = ".";
     public static final String EMPTY = "";
+
+    /**
+     * 判断是否Base64
+     *
+     * @param src
+     * @return
+     */
+    public static boolean isBase64(String src) {
+
+        Assert.isNull(src, "src is null.");
+
+        String encodeValue = Base64Utils
+            .encodeToString(Base64Utils
+                .decode(src.getBytes(StandardCharsets.UTF_8)));
+
+        return encodeValue.equals(src);
+    }
 
     /**
      * <p>Checks if a CharSequence is empty (""), null or whitespace only.</p>
@@ -101,13 +120,14 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * StringUtils.isNotEmpty("  bob  ") = true
      * </pre>
      *
-     * @param cs  the CharSequence to check, may be null
+     * @param cs the CharSequence to check, may be null
      * @return {@code true} if the CharSequence is not empty and not null
      * @since 3.0 Changed signature from isNotEmpty(String) to isNotEmpty(CharSequence)
      */
     public static boolean isNotEmpty(final CharSequence cs) {
-        return !isEmpty(cs);
+        return !StringUtils.isEmpty(cs);
     }
+
     /**
      * 过滤空串
      *
@@ -132,29 +152,6 @@ public class StringUtils extends org.springframework.util.StringUtils {
         return false;
     }
 
-    public static String[] listToArray(List<String> list) {
-
-        Validate.notEmpty(list);
-
-        if (CollectionUtils.isNotEmpty(list)) {
-            return list.toArray(new String[list.size()]);
-        }
-        return new String[0];
-    }
-
-    public static List<String> arrayToList(String[] strings) {
-        if (strings != null && strings.length > 0) {
-            return Arrays.asList(strings);
-        }
-        return new ArrayList<>();
-    }
-
-    public static List<String> stringToList(String... strings) {
-        if (strings != null && strings.length > 0) {
-            return Arrays.asList(strings);
-        }
-        return new ArrayList<String>();
-    }
 
     /**
      * 获得字符串对应byte数组
@@ -164,7 +161,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @return bytes
      */
     public static byte[] getBytes(String str, Charset charset) {
-        if (StringUtils.isBlank(str)) {
+        if (String2Utils.isBlank(str)) {
             return null;
         }
         return null == charset ? str.getBytes() : str.getBytes(charset);
@@ -296,7 +293,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @return 切掉后的字符串，若前缀不是 preffix， 返回原字符串
      */
     public static String removePrefix(String str, String prefix) {
-        if (isEmpty(str) || isEmpty(prefix)) {
+        if (StringUtils.isEmpty(str) || StringUtils.isEmpty(prefix)) {
             return str;
         }
 
@@ -309,15 +306,15 @@ public class StringUtils extends org.springframework.util.StringUtils {
     /**
      * 切割后部分
      *
-     * @param string    字符串
+     * @param src       字符串
      * @param fromIndex 切割开始的位置（包括）
      * @return 切割后的字符串
      */
-    public static String subSuf(String string, int fromIndex) {
-        if (isEmpty(string)) {
+    public static String subSuf(String src, int fromIndex) {
+        if (StringUtils.isEmpty(src)) {
             return null;
         }
-        return sub(string, fromIndex, string.length());
+        return sub(src, fromIndex, src.length());
     }
 
     public static String sub(String string, int fromIndex, int toIndex) {

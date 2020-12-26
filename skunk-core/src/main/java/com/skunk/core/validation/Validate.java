@@ -1,13 +1,12 @@
 package com.skunk.core.validation;
 
-import com.skunk.core.utils.StringUtils;
+import com.skunk.core.utils.String2Utils;
 
 import com.skunk.core.validation.exception.ValidateIllegalArgumentException;
 import com.skunk.core.validation.exception.ValidateIndexOutOfBoundsException;
 import com.skunk.core.validation.exception.ValidateNullPointerException;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -435,7 +434,7 @@ public class Validate {
         if (chars == null) {
             throw new ValidateNullPointerException(String.format(message, values));
         }
-        if (StringUtils.isBlank(chars)) {
+        if (String2Utils.isBlank(chars)) {
             throw new ValidateIllegalArgumentException(String.format(message, values));
         }
         return chars;

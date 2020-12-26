@@ -1,19 +1,12 @@
 package com.skunk.core.file;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import com.skunk.core.collectors.Collection2Utils;
+import com.skunk.core.utils.String2Utils;
+import com.skunk.core.utils.CharsetUtils;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
+
+import java.io.*;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -26,12 +19,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-
-import com.skunk.core.collectors.CollectionUtils;
-import com.skunk.core.utils.CharsetUtils;
-import com.skunk.core.utils.StringUtils;
-import org.springframework.util.FileCopyUtils;
-
 /**
  * 文件工具类
  *
@@ -39,15 +26,6 @@ import org.springframework.util.FileCopyUtils;
  * @since 0.0.1
  */
 public class FileUtils {
-
-    /**
-     * The Unix separator character.
-     */
-    private static final char UNIX_SEPARATOR = '/';
-    /**
-     * The Windows separator character.
-     */
-    private static final char WINDOWS_SEPARATOR = '\\';
 
     /**
      * Class文件扩展名
@@ -65,13 +43,20 @@ public class FileUtils {
      * 当Path为文件形式时, path会加入一个表示文件的前缀
      */
     public static final String PATH_FILE_PRE = "file:";
+    /**
+     * The Unix separator character.
+     */
+    private static final char UNIX_SEPARATOR = '/';
+    /**
+     * The Windows separator character.
+     */
+    private static final char WINDOWS_SEPARATOR = '\\';
 
     /**
      * 文件是否为空<br>
      * 目录：里面没有文件时为空 文件：文件大小为0时为空
      *
-     * @param file
-     *     文件
+     * @param file 文件
      * @return 是否为空，当提供非目录时，返回false
      */
     public static boolean isEmpty(File file) {
@@ -81,9 +66,7 @@ public class FileUtils {
 
         if (file.isDirectory()) {
             String[] subFiles = file.list();
-            if (CollectionUtils.isEmpty(subFiles)) {
-                return true;
-            }
+            return Collection2Utils.isEmpty(subFiles);
         } else if (file.isFile()) {
             return file.length() <= 0;
         }
@@ -94,8 +77,7 @@ public class FileUtils {
     /**
      * 目录是否为空
      *
-     * @param file
-     *     目录
+     * @param file 目录
      * @return 是否为空，当提供非目录时，返回false
      */
     public static boolean isNotEmpty(File file) {
@@ -105,11 +87,9 @@ public class FileUtils {
     /**
      * 目录是否为空
      *
-     * @param dirPath
-     *     目录
+     * @param dirPath 目录
      * @return 是否为空
-     * @throws IOException
-     *     创建文件异常
+     * @throws IOException 创建文件异常
      */
     public static boolean isDirEmpty(Path dirPath) throws IOException {
         try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(dirPath)) {
@@ -122,11 +102,9 @@ public class FileUtils {
     /**
      * 目录是否为空
      *
-     * @param dir
-     *     目录
+     * @param dir 目录
      * @return 是否为空
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static boolean isDirEmpty(File dir) throws IOException {
         return isDirEmpty(dir.toPath());
@@ -135,10 +113,8 @@ public class FileUtils {
     /**
      * 递归遍历目录以及子目录中的所有文件
      *
-     * @param file
-     *     当前遍历文件
-     * @param fileFilter
-     *     文件过滤规则对象，选择要保留的文件
+     * @param file       当前遍历文件
+     * @param fileFilter 文件过滤规则对象，选择要保留的文件
      * @return 返回文件列表
      */
     public static List<File> loopFiles(File file, FileFilter fileFilter) {
@@ -165,8 +141,7 @@ public class FileUtils {
     /**
      * 递归遍历目录以及子目录中的所有文件
      *
-     * @param file
-     *     当前遍历文件
+     * @param file 当前遍历文件
      * @return
      */
     public static List<File> loopFiles(File file) {
@@ -176,14 +151,12 @@ public class FileUtils {
     /**
      * 创建File对象
      *
-     * @param parent
-     *     父目录
-     * @param path
-     *     文件路径
+     * @param parent 父目录
+     * @param path   文件路径
      * @return File
      */
     public static File file(String parent, String path) {
-        if (StringUtils.isBlank(path)) {
+        if (String2Utils.isBlank(path)) {
             throw new NullPointerException("File path is blank!");
         }
         return new File(parent, path);
@@ -192,14 +165,12 @@ public class FileUtils {
     /**
      * 创建File对象
      *
-     * @param parent
-     *     父文件对象
-     * @param path
-     *     文件路径
+     * @param parent 父文件对象
+     * @param path   文件路径
      * @return File
      */
     public static File file(File parent, String path) {
-        if (StringUtils.isBlank(path)) {
+        if (String2Utils.isBlank(path)) {
             throw new NullPointerException("File path is blank!");
         }
         return new File(parent, path);
@@ -208,8 +179,7 @@ public class FileUtils {
     /**
      * 创建File对象
      *
-     * @param uri
-     *     文件URI
+     * @param uri 文件URI
      * @return File
      */
     public static File file(URI uri) {
@@ -222,21 +192,18 @@ public class FileUtils {
     /**
      * 判断文件是否存在，如果file为null，则返回false
      *
-     * @param file
-     *     文件
+     * @param file 文件
      * @return 如果存在返回true
      */
     public static boolean exist(File file) {
-        return (file == null) ? false : file.exists();
+        return (file != null) && file.exists();
     }
 
     /**
      * 是否存在匹配文件
      *
-     * @param directory
-     *     文件夹路径
-     * @param regexp
-     *     文件夹中所包含文件名的正则表达式
+     * @param directory 文件夹路径
+     * @param regexp    文件夹中所包含文件名的正则表达式
      * @return 如果存在匹配文件返回true
      */
     public static boolean exist(String directory, String regexp) {
@@ -262,8 +229,7 @@ public class FileUtils {
     /**
      * 指定文件最后修改时间
      *
-     * @param file
-     *     文件
+     * @param file 文件
      * @return 最后修改时间
      */
     public static Date lastModifiedTime(File file) {
@@ -276,8 +242,7 @@ public class FileUtils {
     /**
      * 指定路径文件最后修改时间
      *
-     * @param path
-     *     路径
+     * @param path 路径
      * @return 最后修改时间
      */
     public static Date lastModifiedTime(String path) {
@@ -291,11 +256,9 @@ public class FileUtils {
     /**
      * 创建文件，如果这个文件存在，直接返回这个文件
      *
-     * @param file
-     *     文件对象
+     * @param file 文件对象
      * @return 文件，若路径为null，返回null
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static File touch(File file) throws IOException {
         if (null == file) {
@@ -312,8 +275,7 @@ public class FileUtils {
     /**
      * 创建所给文件或目录的父目录
      *
-     * @param file
-     *     文件或目录
+     * @param file 文件或目录
      * @return 父目录
      */
     public static File mkParentDirs(File file) {
@@ -327,11 +289,9 @@ public class FileUtils {
     /**
      * 删除文件或者文件夹
      *
-     * @param file
-     *     文件对象
+     * @param file 文件对象
      * @return 成功与否
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static boolean del(File file) throws IOException {
         if (file == null || file.exists() == false) {
@@ -355,11 +315,9 @@ public class FileUtils {
      * 创建临时文件<br>
      * 创建后的文件名为 prefix[Randon].tmp
      *
-     * @param dir
-     *     临时文件创建的所在目录
+     * @param dir 临时文件创建的所在目录
      * @return 临时文件
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static File createTempFile(File dir) throws IOException {
         return createTempFile("hutool", null, dir, true);
@@ -369,13 +327,10 @@ public class FileUtils {
      * 创建临时文件<br>
      * 创建后的文件名为 prefix[Randon].tmp
      *
-     * @param dir
-     *     临时文件创建的所在目录
-     * @param isReCreat
-     *     是否重新创建文件（删掉原来的，创建新的）
+     * @param dir       临时文件创建的所在目录
+     * @param isReCreat 是否重新创建文件（删掉原来的，创建新的）
      * @return 临时文件
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static File createTempFile(File dir, boolean isReCreat) throws IOException {
         return createTempFile("hutool", null, dir, isReCreat);
@@ -385,17 +340,12 @@ public class FileUtils {
      * 创建临时文件<br>
      * 创建后的文件名为 prefix[Randon].suffix From com.jodd.io.FileUtil
      *
-     * @param prefix
-     *     前缀，至少3个字符
-     * @param suffix
-     *     后缀，如果null则使用默认.tmp
-     * @param dir
-     *     临时文件创建的所在目录
-     * @param isReCreat
-     *     是否重新创建文件（删掉原来的，创建新的）
+     * @param prefix    前缀，至少3个字符
+     * @param suffix    后缀，如果null则使用默认.tmp
+     * @param dir       临时文件创建的所在目录
+     * @param isReCreat 是否重新创建文件（删掉原来的，创建新的）
      * @return 临时文件
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static File createTempFile(String prefix, String suffix, File dir, boolean isReCreat) throws IOException {
         int exceptionsCount = 0;
@@ -422,15 +372,11 @@ public class FileUtils {
      * 2、src和dest都为文件，直接复制，名字为dest<br>
      * 3、src为文件，dest为目录，将src拷贝到dest目录下<br>
      *
-     * @param src
-     *     源文件
-     * @param dest
-     *     目标文件或目录
-     * @param isOverride
-     *     是否覆盖目标文件
+     * @param src        源文件
+     * @param dest       目标文件或目录
+     * @param isOverride 是否覆盖目标文件
      * @return 目标目录或文件
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static File copy(File src, File dest, boolean isOverride) throws IOException {
         // check
@@ -450,7 +396,7 @@ public class FileUtils {
             if (!dest.exists()) {
                 dest.mkdirs();
             }
-            String files[] = src.list();
+            String[] files = src.list();
             for (String file : files) {
                 File srcFile = new File(src, file);
                 File destFile = new File(dest, file);
@@ -489,12 +435,9 @@ public class FileUtils {
     /**
      * 移动文件或者目录
      *
-     * @param src
-     *     源文件或者目录
-     * @param dest
-     *     目标文件或者目录
-     * @param isOverride
-     *     是否覆盖目标
+     * @param src        源文件或者目录
+     * @param dest       目标文件或者目录
+     * @param isOverride 是否覆盖目标
      */
     public static void move(File src, File dest, boolean isOverride) throws IOException {
         // check
@@ -533,8 +476,7 @@ public class FileUtils {
     /**
      * 获取标准的绝对路径
      *
-     * @param file
-     *     文件
+     * @param file 文件
      * @return 绝对路径
      */
     public static String getAbsolutePath(File file) {
@@ -552,32 +494,28 @@ public class FileUtils {
     /**
      * 判断是否为目录，如果file为null，则返回false
      *
-     * @param file
-     *     文件
+     * @param file 文件
      * @return 如果为目录true
      */
     public static boolean isDirectory(File file) {
-        return (file == null) ? false : file.isDirectory();
+        return (file != null) && file.isDirectory();
     }
 
     /**
      * 判断是否为文件，如果file为null，则返回false
      *
-     * @param file
-     *     文件
+     * @param file 文件
      * @return 如果为文件true
      */
     public static boolean isFile(File file) {
-        return (file == null) ? false : file.isDirectory();
+        return (file != null) && file.isDirectory();
     }
 
     /**
      * 检查两个文件是否是同一个文件
      *
-     * @param file1
-     *     文件1
-     * @param file2
-     *     文件2
+     * @param file1 文件1
+     * @param file2 文件2
      * @return 是否相同
      */
     public static boolean equals(File file1, File file2) {
@@ -593,8 +531,7 @@ public class FileUtils {
     /**
      * 获得最后一个文件路径分隔符的位置
      *
-     * @param filePath
-     *     文件路径
+     * @param filePath 文件路径
      * @return 最后一个文件路径分隔符的位置
      */
     public static int indexOfLastSeparator(String filePath) {
@@ -610,10 +547,8 @@ public class FileUtils {
      * 判断文件是否被改动<br>
      * 如果文件对象为 null 或者文件不存在，被视为改动
      *
-     * @param file
-     *     文件对象
-     * @param lastModifyTime
-     *     上次的改动时间
+     * @param file           文件对象
+     * @param lastModifyTime 上次的改动时间
      * @return 是否被改动
      */
     public static boolean isModifed(File file, long lastModifyTime) {
@@ -628,8 +563,7 @@ public class FileUtils {
      * 1. 统一用 / <br>
      * 2. 多个 / 转换为一个
      *
-     * @param path
-     *     原路径
+     * @param path 原路径
      * @return 修复后的路径
      */
     public static String normalize(String path) {
@@ -639,10 +573,8 @@ public class FileUtils {
     /**
      * 获得相对子路径
      *
-     * @param rootDir
-     *     绝对父路径
-     * @param file
-     *     文件
+     * @param rootDir 绝对父路径
+     * @param file    文件
      * @return 相对子路径
      */
     public static String subPath(String rootDir, File file) throws IOException {
@@ -653,7 +585,7 @@ public class FileUtils {
         String subPath = null;
         subPath = file.getCanonicalPath();
 
-        if (StringUtils.isNotEmpty(rootDir) && StringUtils.isNotEmpty(subPath)) {
+        if (String2Utils.isNotEmpty(rootDir) && String2Utils.isNotEmpty(subPath)) {
             rootDir = normalize(rootDir);
             subPath = normalize(subPath);
 
@@ -670,8 +602,7 @@ public class FileUtils {
     /**
      * 返回主文件名
      *
-     * @param file
-     *     文件
+     * @param file 文件
      * @return 主文件名
      */
     public static String mainName(File file) {
@@ -684,23 +615,21 @@ public class FileUtils {
     /**
      * 返回主文件名
      *
-     * @param fileName
-     *     完整文件名
+     * @param fileName 完整文件名
      * @return 主文件名
      */
     public static String mainName(String fileName) {
 
-        if (StringUtils.isBlank(fileName) || false == fileName.contains(StringUtils.DOT)) {
+        if (String2Utils.isBlank(fileName) || false == fileName.contains(String2Utils.DOT)) {
             return fileName;
         }
-        return StringUtils.subPre(fileName, fileName.lastIndexOf(StringUtils.DOT));
+        return String2Utils.subPre(fileName, fileName.lastIndexOf(String2Utils.DOT));
     }
 
     /**
      * 获取文件扩展名
      *
-     * @param file
-     *     文件
+     * @param file 文件
      * @return 扩展名
      */
     public static String extName(File file) {
@@ -716,29 +645,27 @@ public class FileUtils {
     /**
      * 获得文件的扩展名
      *
-     * @param fileName
-     *     文件名
+     * @param fileName 文件名
      * @return 扩展名
      */
     public static String extName(String fileName) {
         if (fileName == null) {
             return null;
         }
-        int index = fileName.lastIndexOf(StringUtils.DOT);
+        int index = fileName.lastIndexOf(String2Utils.DOT);
         if (index == -1) {
-            return StringUtils.EMPTY;
+            return String2Utils.EMPTY;
         } else {
             String ext = fileName.substring(index + 1);
             // 扩展名中不能包含路径相关的符号
-            return (ext.contains(String.valueOf(UNIX_SEPARATOR)) || ext.contains(String.valueOf(WINDOWS_SEPARATOR))) ? StringUtils.EMPTY : ext;
+            return (ext.contains(String.valueOf(UNIX_SEPARATOR)) || ext.contains(String.valueOf(WINDOWS_SEPARATOR))) ? String2Utils.EMPTY : ext;
         }
     }
 
     /**
      * 获得输入流
      *
-     * @param file
-     *     文件
+     * @param file 文件
      * @return 输入流
      * @throws FileNotFoundException
      * @throws IOException
@@ -750,22 +677,19 @@ public class FileUtils {
     /**
      * 获得一个文件读取器
      *
-     * @param file
-     *     文件
+     * @param file 文件
      * @return BufferedReader对象
      * @throws IOException
      */
     public static BufferedReader getUtf8Reader(File file) throws IOException {
-        return getReader(file, CharsetUtils.UTF_8);
+        return getReader(file, CharsetUtils.CHARSET_UTF_8);
     }
 
     /**
      * 获得一个文件读取器
      *
-     * @param file
-     *     文件
-     * @param charsetName
-     *     字符集
+     * @param file        文件
+     * @param charsetName 字符集
      * @return BufferedReader对象
      * @throws IOException
      */
@@ -776,13 +700,10 @@ public class FileUtils {
     /**
      * 获得一个文件读取器
      *
-     * @param file
-     *     文件
-     * @param charset
-     *     字符集
+     * @param file    文件
+     * @param charset 字符集
      * @return BufferedReader对象
-     * @throws IOException
-     *     获取文件异常
+     * @throws IOException 获取文件异常
      */
     public static BufferedReader getReader(File file, Charset charset) throws IOException {
         return IoUtils.getReader(getInputStream(file), charset);
@@ -795,11 +716,9 @@ public class FileUtils {
      * 读取文件所有数据<br>
      * 文件的长度不能超过Integer.MAX_VALUE
      *
-     * @param file
-     *     文件
+     * @param file 文件
      * @return 字节码
-     * @throws IOException
-     *     读取文件异常
+     * @throws IOException 读取文件异常
      */
     public static byte[] readBytes(File file) throws IOException {
         // check
@@ -825,26 +744,21 @@ public class FileUtils {
     /**
      * 读取文件内容
      *
-     * @param file
-     *     文件
+     * @param file 文件
      * @return 内容
-     * @throws IOException
-     *     读取文件异常
+     * @throws IOException 读取文件异常
      */
     public static String readUtf8String(File file) throws IOException {
-        return readString(file, CharsetUtils.UTF_8);
+        return readString(file, CharsetUtils.CHARSET_UTF_8);
     }
 
     /**
      * 读取文件内容
      *
-     * @param file
-     *     文件
-     * @param charsetName
-     *     字符集
+     * @param file        文件
+     * @param charsetName 字符集
      * @return 内容
-     * @throws IOException
-     *     读取文件异常
+     * @throws IOException 读取文件异常
      */
     public static String readString(File file, String charsetName) throws IOException {
         return new String(readBytes(file), charsetName);
@@ -853,13 +767,10 @@ public class FileUtils {
     /**
      * 读取文件内容
      *
-     * @param file
-     *     文件
-     * @param charset
-     *     字符集
+     * @param file    文件
+     * @param charset 字符集
      * @return 内容
-     * @throws IOException
-     *     读取文件异常
+     * @throws IOException 读取文件异常
      */
     public static String readString(File file, Charset charset) throws IOException {
         return new String(readBytes(file), charset);
@@ -871,8 +782,7 @@ public class FileUtils {
      * @param url
      * @param charset
      * @return
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static String readString(URL url, String charset) throws IOException {
         if (url == null) {
@@ -887,15 +797,11 @@ public class FileUtils {
     /**
      * 从文件中读取每一行数据
      *
-     * @param file
-     *     文件路径
-     * @param charset
-     *     字符集
-     * @param collection
-     *     集合
+     * @param file       文件路径
+     * @param charset    字符集
+     * @param collection 集合
      * @return 文件中的每行内容的集合
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static <T extends Collection<String>> T readLines(File file, String charset, T collection) throws IOException {
         try (BufferedReader reader = getReader(file, charset)) {
@@ -914,15 +820,11 @@ public class FileUtils {
     /**
      * 从文件中读取每一行数据
      *
-     * @param url
-     *     文件的URL
-     * @param charset
-     *     字符集
-     * @param collection
-     *     集合
+     * @param url        文件的URL
+     * @param charset    字符集
+     * @param collection 集合
      * @return 文件中的每行内容的集合
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static <T extends Collection<String>> T readLines(URL url, String charset, T collection) throws IOException {
         try (InputStream in = url.openStream()) {
@@ -933,13 +835,10 @@ public class FileUtils {
     /**
      * 从文件中读取每一行数据
      *
-     * @param url
-     *     文件的URL
-     * @param charset
-     *     字符集
+     * @param url     文件的URL
+     * @param charset 字符集
      * @return 文件中的每行内容的集合List
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static List<String> readLines(URL url, String charset) throws IOException {
         return readLines(url, charset, new ArrayList<String>());
@@ -948,13 +847,10 @@ public class FileUtils {
     /**
      * 从文件中读取每一行数据
      *
-     * @param file
-     *     文件
-     * @param charset
-     *     字符集
+     * @param file    文件
+     * @param charset 字符集
      * @return 文件中的每行内容的集合List
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static List<String> readLines(File file, String charset) throws IOException {
         return readLines(file, charset, new ArrayList<String>());
@@ -963,11 +859,9 @@ public class FileUtils {
     /**
      * 获得一个输出流对象
      *
-     * @param file
-     *     文件
+     * @param file 文件
      * @return 输出流对象
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static BufferedOutputStream getOutputStream(File file) throws IOException {
         return new BufferedOutputStream(new FileOutputStream(touch(file)));
@@ -976,15 +870,11 @@ public class FileUtils {
     /**
      * 获得一个带缓存的写入对象
      *
-     * @param file
-     *     输出文件
-     * @param charsetName
-     *     字符集
-     * @param isAppend
-     *     是否追加
+     * @param file        输出文件
+     * @param charsetName 字符集
+     * @param isAppend    是否追加
      * @return BufferedReader对象
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static BufferedWriter getWriter(File file, String charsetName, boolean isAppend) throws IOException {
         return getWriter(file, Charset.forName(charsetName), isAppend);
@@ -993,15 +883,11 @@ public class FileUtils {
     /**
      * 获得一个带缓存的写入对象
      *
-     * @param file
-     *     输出文件
-     * @param charset
-     *     字符集
-     * @param isAppend
-     *     是否追加
+     * @param file     输出文件
+     * @param charset  字符集
+     * @param isAppend 是否追加
      * @return BufferedReader对象
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static BufferedWriter getWriter(File file, Charset charset, boolean isAppend) throws IOException {
         if (false == file.exists()) {
@@ -1013,49 +899,38 @@ public class FileUtils {
     /**
      * 获得一个打印写入对象，可以有print
      *
-     * @param file
-     *     文件
-     * @param charset
-     *     字符集
-     * @param isAppend
-     *     是否追加
+     * @param file     文件
+     * @param charset  字符集
+     * @param isAppend 是否追加
      * @return 打印对象
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
-    public static PrintWriter getPrintWriter(File file, String charset, boolean isAppend) throws IOException {
+    public static PrintWriter getPrintWriter(File file, Charset charset, boolean isAppend) throws IOException {
         return new PrintWriter(getWriter(file, charset, isAppend));
     }
 
     /**
      * 将String写入文件，覆盖模式，字符集为UTF-8
      *
-     * @param content
-     *     写入的内容
-     * @param file
-     *     文件
+     * @param content 写入的内容
+     * @param file    文件
      * @return 写入的文件
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static File writeUtf8String(String content, File file) throws IOException {
-        return writeString(content, file, CharsetUtils.UTF_8);
+        return writeString(content, file, CharsetUtils.CHARSET_UTF_8);
     }
 
     /**
      * 将String写入文件，覆盖模式
      *
-     * @param content
-     *     写入的内容
-     * @param file
-     *     文件
-     * @param charset
-     *     字符集
+     * @param content 写入的内容
+     * @param file    文件
+     * @param charset 字符集
      * @return 文件
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
-    public static File writeString(String content, File file, String charset) throws IOException {
+    public static File writeString(String content, File file, Charset charset) throws IOException {
         try (PrintWriter writer = getPrintWriter(file, charset, false)) {
             writer.print(content);
             writer.flush();
@@ -1066,17 +941,13 @@ public class FileUtils {
     /**
      * 将String写入文件，追加模式
      *
-     * @param content
-     *     写入的内容
-     * @param file
-     *     文件
-     * @param charset
-     *     字符集
+     * @param content 写入的内容
+     * @param file    文件
+     * @param charset 字符集
      * @return 写入的文件
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
-    public static File appendString(String content, File file, String charset) throws IOException {
+    public static File appendString(String content, File file, Charset charset) throws IOException {
         try (PrintWriter writer = getPrintWriter(file, charset, true)) {
             writer.print(content);
             writer.flush();
@@ -1087,13 +958,10 @@ public class FileUtils {
     /**
      * 写数据到文件中
      *
-     * @param dest
-     *     目标文件
-     * @param data
-     *     数据
+     * @param dest 目标文件
+     * @param data 数据
      * @return dest
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static File writeBytes(byte[] data, File dest) throws IOException {
         return writeBytes(data, dest, 0, data.length, false);
@@ -1102,19 +970,13 @@ public class FileUtils {
     /**
      * 写入数据到文件
      *
-     * @param data
-     *     数据
-     * @param dest
-     *     目标文件
-     * @param off
-     *     off
-     * @param len
-     *     长度
-     * @param append
-     *     是否拼接
+     * @param data   数据
+     * @param dest   目标文件
+     * @param off    off
+     * @param len    长度
+     * @param append 是否拼接
      * @return 文件
-     * @throws IOException
-     *     文件异常
+     * @throws IOException 文件异常
      */
     public static File writeBytes(byte[] data, File dest, int off, int len, boolean append) throws IOException {
         if (dest.exists() == true) {
@@ -1132,10 +994,8 @@ public class FileUtils {
     /**
      * 将流的内容写入文件<br>
      *
-     * @param dest
-     *     目标文件
-     * @param in
-     *     输入流
+     * @param dest 目标文件
+     * @param in   输入流
      * @return dest
      */
     public static File writeFromStream(InputStream in, File dest) throws IOException {
@@ -1149,10 +1009,8 @@ public class FileUtils {
     /**
      * 将文件写入流中
      *
-     * @param file
-     *     文件
-     * @param out
-     *     流
+     * @param file 文件
+     * @param out  流
      */
     public static void writeToStream(File file, OutputStream out) throws IOException {
         try (FileInputStream in = new FileInputStream(file)) {
@@ -1163,8 +1021,7 @@ public class FileUtils {
     /**
      * 可读的文件大小
      *
-     * @param file
-     *     文件
+     * @param file 文件
      * @return 大小
      */
     public static String readableFileSize(File file) {
@@ -1175,15 +1032,14 @@ public class FileUtils {
      * 可读的文件大小<br>
      * 参考 http://stackoverflow.com/questions/3263892/format-file-size-as-mb-gb-etc
      *
-     * @param size
-     *     Long类型大小
+     * @param size Long类型大小
      * @return 大小
      */
     public static String readableFileSize(long size) {
         if (size <= 0) {
             return "0";
         }
-        final String[] units = new String[] { "B", "kB", "MB", "GB", "TB", "EB" };
+        final String[] units = new String[]{"B", "kB", "MB", "GB", "TB", "EB"};
         int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
         return new DecimalFormat("#,##0.##").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
@@ -1199,7 +1055,7 @@ public class FileUtils {
      */
     public interface ReaderHandler<T> {
 
-        public T handle(BufferedReader reader) throws IOException;
+        T handle(BufferedReader reader) throws IOException;
     }
     // --------------------------------------------------------------------------
     // Interface end

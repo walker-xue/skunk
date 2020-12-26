@@ -23,8 +23,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
-import com.skunk.core.collectors.CollectionUtils;
-import com.skunk.core.utils.StringUtils;
+import com.skunk.core.collectors.Collection2Utils;
+import com.skunk.core.utils.String2Utils;
 import com.skunk.office.ReflectUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -113,7 +113,7 @@ public class ExcelHelper {
             boolean flag = false;
             String hName = (String) headName.get(index);
             for (ExcelColumn excelColumn : excelColumns) {
-                if (StringUtils.filterNull(hName).equals(excelColumn.getFieldDispName().trim())) {
+                if (String2Utils.filterNull(hName).equals(excelColumn.getFieldDispName().trim())) {
                     flag = true;
                     excelHeadMap.put(index, excelColumn.getFieldName());
                 }
@@ -251,7 +251,7 @@ public class ExcelHelper {
         List<Object> contents = new ArrayList<>();
         for (List<?> list : rows) {
             // 如果当前第一列中无数据,则忽略当前行的数据
-            if (CollectionUtils.isEmpty(list) || list.get(0) == null) {
+            if (Collection2Utils.isEmpty(list) || list.get(0) == null) {
                 break;
             }
             // 当前行的数据放入map中,生成<fieldName, value>的形式
@@ -280,7 +280,7 @@ public class ExcelHelper {
         Map<String, Object> rowMap = new HashMap<>();
         for (int i = 0; i < list.size(); i++) {
             String fieldName = headerMap.get(i);
-            if (StringUtils.isNotEmpty(fieldName)) {
+            if (String2Utils.isNotEmpty(fieldName)) {
                 rowMap.put(fieldName, list.get(i));
             }
         }

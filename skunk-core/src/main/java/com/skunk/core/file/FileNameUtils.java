@@ -1,6 +1,6 @@
 package com.skunk.core.file;
 
-import com.skunk.core.utils.StringUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * 对文件名称处理

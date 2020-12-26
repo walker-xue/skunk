@@ -12,7 +12,6 @@
     <description>
         DB Data持久化工具，其数据的持久化依赖于Spring JPA实现。
     </description>
-
     <dependencies>
         <dependency>
             <groupId>com.github.skunk</groupId>

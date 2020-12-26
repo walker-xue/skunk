@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class SpringBeanFactory implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext = null;
-    private static String MESSAGE = "SpringBeanFactory没有被Spring容器扫描到，请在扫描组件位置加入`com.github.skunk`包后，再试一下.";
+    private static String MESSAGE = "SpringBeanFactory没有被Spring容器扫描到，请在扫描组件位置加入`com.skunk`包后，再试一下.";
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

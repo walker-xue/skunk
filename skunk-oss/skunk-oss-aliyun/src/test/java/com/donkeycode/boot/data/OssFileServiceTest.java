@@ -35,7 +35,7 @@ public class OssFileServiceTest extends BaseTest {
     @Test
     public void getPageList() {
 
-        PageFilter pageProvider = PageFilterHelper.builder()
+        PageFilter pageProvider = new PageFilterHelper.Builder()
             .pageNo(3)
             .pageSize(3)
             .orderField("createTime")

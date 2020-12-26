@@ -1,13 +1,11 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.3.7.RELEASE</version>
     </parent>
-
     <groupId>com.github.skunk</groupId>
     <version>Dragon.SR1</version>
     <artifactId>skunk-lite</artifactId>
@@ -17,7 +15,6 @@
         通过插件的方式实现快速开发Web项目功能。高度封装了数据持久化、OSS对象存储、通用接口定义和实现等新特性功能。
     </description>
     <url>https://github.com/walker-xue/skunk.git</url>
-
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -25,14 +22,12 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
     <scm>
         <tag>v0.0.1</tag>
         <url>https://github.com/walker-xue/skunk.git</url>
         <connection>scm:git:https://github.com/walker-xue/skunk.git</connection>
         <developerConnection>scm:git:https://github.com/walker-xue/skunk.git</developerConnection>
     </scm>
-
     <developers>
         <developer>
             <name>Xue.Nanfeng</name>
@@ -44,34 +39,39 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
+
         <java.version>11</java.version>
+        <lombok.version>1.18.16</lombok.version>
+        <maven.version>3.1.0</maven.version>
+
+        <xmlbeans.version>3.1.0</xmlbeans.version>
 
         <spring-boot.version>2.3.7.RELEASE</spring-boot.version>
         <spring-boot-admin.version>2.3.1</spring-boot-admin.version>
         <spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
-        <lombok.version>1.18.16</lombok.version>
-
-        <maven.version>3.1.0</maven.version>
+        <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
 
         <swagger.version>3.0.0</swagger.version>
         <springfox.version>3.0.0</springfox.version>
-        <knife4j.version>3.0.1</knife4j.version>
-        <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
+        <knife4j.version>3.0.2</knife4j.version>
 
         <javax.mail.version>1.6.0</javax.mail.version>
         <jaxb.version>2.3.1</jaxb.version>
+
         <jjwt.version>0.9.1</jjwt.version>
         <flowable.version>6.6.0</flowable.version>
         <camunda.version>7.14.0</camunda.version>
+
         <poi.version>4.1.2</poi.version>
         <poi-tl.version>1.8.2</poi-tl.version>
-        <xmlbeans.version>3.1.0</xmlbeans.version>
+
         <easyexcel.version>2.2.6</easyexcel.version>
         <mariadb.version>2.7.0</mariadb.version>
-        <tk.mybatis.version>2.1.5</tk.mybatis.version>
 
         <mybatis-spring-boot.version>2.1.4</mybatis-spring-boot.version>
+        <tk.mybatis.version>2.1.5</tk.mybatis.version>
         <pagehelper.version>1.2.13</pagehelper.version>
+
         <jasypt.version>3.0.3</jasypt.version>
         <txlcn.version>5.0.2.RELEASE</txlcn.version>
         <io.micrometer.version>1.6.2</io.micrometer.version>
@@ -87,9 +87,7 @@
         <exec-maven-plugin.version>1.6.0</exec-maven-plugin.version>
         <smart-doc-maven-plugin.version>1.1.8</smart-doc-maven-plugin.version>
         <lombok-maven-plugin.version>1.18.10.0</lombok-maven-plugin.version>
-
     </properties>
-
     <modules>
         <module>skunk-core</module>
         <module>skunk-acl</module>
@@ -97,6 +95,7 @@
         <module>skunk-data</module>
         <module>skunk-office</module>
         <module>skunk-oss</module>
+        <module>skunk-mail</module>
     </modules>
 
     <dependencies>
@@ -124,7 +123,6 @@
                 <artifactId>flowable-spring-boot-starter</artifactId>
                 <version>${flowable.version}</version>
             </dependency>
-
             <!-- camunda-->
             <dependency>
                 <groupId>org.camunda.bpm.springboot</groupId>
@@ -142,7 +140,6 @@
                 <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
                 <version>${camunda.version}</version>
             </dependency>
-
             <!-- api docs -->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
@@ -328,12 +325,6 @@
                 <artifactId>poi-tl</artifactId>
                 <version>${poi-tl.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>easyexcel</artifactId>
-                <version>${easyexcel.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>

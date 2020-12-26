@@ -1,15 +1,15 @@
 package commons.test;
 
-import java.util.UUID;
+import com.skunk.core.utils.JdkUUIDGenerator;
 
-import com.skunk.core.utils.UUIDUtils;
+import java.util.UUID;
 
 public class UUIDUtilTest {
 
     public static void main(String[] args) {
 
         for (int i = 0; i < 20000; i++) {
-            String randomUUID = UUIDUtils.get8UUID();
+            String randomUUID = JdkUUIDGenerator.generateRandom8();
 
             System.out.println("randomUUID:" + randomUUID + ";" + randomUUID.length());
         }
