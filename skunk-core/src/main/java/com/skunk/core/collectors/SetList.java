@@ -24,7 +24,7 @@ public class SetList<E> extends LinkedList<E> {
         if (this.modCount == 0) {
             return super.add(objct);
         }
-        return contains(objct) ? false : super.add(objct);
+        return !contains(objct) && super.add(objct);
     }
 
 }

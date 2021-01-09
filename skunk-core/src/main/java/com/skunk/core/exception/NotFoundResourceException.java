@@ -11,30 +11,30 @@ import lombok.Getter;
  */
 public class NotFoundResourceException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 异常对应的返回码
-	 */
-	@Getter
-	private Integer code = Integer.valueOf(404);
+    /**
+     * 异常对应的返回码
+     */
+    @Getter
+    private final Integer code = Integer.valueOf(404);
 
-	public NotFoundResourceException() {
-		super();
-	}
+    public NotFoundResourceException() {
+        super();
+    }
 
-	public NotFoundResourceException(String message) {
-		super(message);
-	}
+    public NotFoundResourceException(String message) {
+        super(message);
+    }
 
-	/**
-	 * 不输出异常堆栈信息
-	 *
-	 * @return
-	 */
-	@Override
-	public Throwable fillInStackTrace() {
-		return this;
-	}
+    /**
+     * 不输出异常堆栈信息
+     *
+     * @return
+     */
+    @Override
+    public Throwable fillInStackTrace() {
+        return this;
+    }
 
 }

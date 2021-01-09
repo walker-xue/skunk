@@ -1,11 +1,11 @@
 package com.skunk.core.utils;
 
-
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
 import java.util.Base64;
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 
 /**
  * 负责密码哈希的生成和校验， 使用Salted SAH1哈希算法
@@ -22,7 +22,8 @@ public class PasswordHash {
     /**
      * 计算密码的哈希值
      *
-     * @param password 待哈希的密码
+     * @param password
+     *     待哈希的密码
      * @return 返回密码的哈希值
      */
     public static String hash(String password) {
@@ -41,8 +42,10 @@ public class PasswordHash {
     /**
      * 验证密码与哈希值是否匹配
      *
-     * @param password 待校验的密码
-     * @param hash     验证的哈希值
+     * @param password
+     *     待校验的密码
+     * @param hash
+     *     验证的哈希值
      * @return 密码与哈希是否匹配
      */
     public static boolean verify(String password, String hash) {

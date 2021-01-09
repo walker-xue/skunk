@@ -1,5 +1,11 @@
 package com.skunk.data;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.skunk.core.collectors.Collection2Utils;
@@ -8,14 +14,10 @@ import com.skunk.core.filter.PageFilter;
 import com.skunk.core.filter.PageResult;
 import com.skunk.core.utils.ReflectionUtils;
 import com.skunk.data.utils.BasisMapper;
+
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.weekend.Weekend;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 关系型数据库持久化
@@ -29,14 +31,11 @@ public class BaseService<T> implements IBaseService<T> {
 
     @Autowired
     protected JdbcTemplate jdbcTemplate;
-
-    private Class<T> entityClass;
-
     @Autowired
     protected BasisMapper<T> mapper;
-
     @Autowired
     protected SqlMapper sqlMapper;
+    private final Class<T> entityClass;
 
     protected BaseService() {
         entityClass = ReflectionUtils.getSuperClassGenricType(getClass());
@@ -163,8 +162,10 @@ public class BaseService<T> implements IBaseService<T> {
     /**
      * 通过分页的形式查询数据
      *
-     * @param operatorId 用户Id
-     * @param pageFilter 分页过滤参数
+     * @param operatorId
+     *     用户Id
+     * @param pageFilter
+     *     分页过滤参数
      * @return 返回查询结果
      */
     @Override

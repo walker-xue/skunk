@@ -11,8 +11,8 @@ public enum ResourcesStatus {
     DISABLE("DISABLE", "禁用"),
     ENABLE("ENABLE", "启用");
 
-    private String code;
-    private String remarks;
+    private final String code;
+    private final String remarks;
 
     ResourcesStatus(String code, String remarks) {
         this.code = code;

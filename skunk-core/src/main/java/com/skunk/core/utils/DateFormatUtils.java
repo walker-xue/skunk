@@ -1,6 +1,5 @@
 package com.skunk.core.utils;
 
-
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -10,6 +9,9 @@ import java.time.format.DateTimeFormatter;
  */
 public class DateFormatUtils {
 
+    /**
+     * 格式化为：yyyyMMdd
+     */
     public static final DateTimeFormatter ISO_SIMPLIFY_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     public static final DateTimeFormatter ISO_EN_DATE_FORMAT = DateTimeFormatter.ofPattern("M/d/yyyy");
@@ -20,5 +22,4 @@ public class DateFormatUtils {
 
     public static final DateTimeFormatter ISO_zh_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     public static final DateTimeFormatter ISO_zh_DATE_time_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
 }

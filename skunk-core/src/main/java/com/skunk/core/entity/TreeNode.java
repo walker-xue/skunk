@@ -1,11 +1,12 @@
 package com.skunk.core.entity;
 
-import com.skunk.core.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.skunk.core.BaseEntity;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 树型数据结构的节点

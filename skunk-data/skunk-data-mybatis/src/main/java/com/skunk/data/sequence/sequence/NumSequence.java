@@ -15,7 +15,8 @@ public interface NumSequence {
      * 生成下一个序列号
      *
      * @return 序列号
-     * @throws SequenceException 序列号异常
+     * @throws SequenceException
+     *     序列号异常
      */
     long nextValue() throws SequenceException;
 }

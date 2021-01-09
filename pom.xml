@@ -1,4 +1,5 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -30,17 +31,16 @@
     </scm>
     <developers>
         <developer>
-            <name>Xue.Nanfeng</name>
+            <name>Walker.Xue</name>
             <email>xueyj163@163.com</email>
         </developer>
     </developers>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
 
-        <java.version>11</java.version>
+        <java.version>1.8</java.version>
         <lombok.version>1.18.16</lombok.version>
         <maven.version>3.1.0</maven.version>
 
@@ -81,7 +81,6 @@
 
         <aliyun-java-sdk-dysmsapi.version>1.1.0</aliyun-java-sdk-dysmsapi.version>
         <aliyun-sdk-oss.version>3.11.2</aliyun-sdk-oss.version>
-
         <!-- Plugin versions -->
         <mybatis-generator-maven-plugin.version>1.3.7</mybatis-generator-maven-plugin.version>
         <exec-maven-plugin.version>1.6.0</exec-maven-plugin.version>
@@ -89,12 +88,13 @@
         <lombok-maven-plugin.version>1.18.10.0</lombok-maven-plugin.version>
     </properties>
     <modules>
-        <module>skunk-core</module>
         <module>skunk-acl</module>
-        <module>skunk-web-core</module>
+        <module>skunk-core</module>
+        <module>skunk-core-web</module>
         <module>skunk-data</module>
         <module>skunk-office</module>
         <module>skunk-oss</module>
+        <module>skunk-code-generate</module>
     </modules>
 
     <dependencies>
@@ -468,32 +468,6 @@
                         </execution>
                     </executions>
                 </plugin>
-
-                <!-- mybatis generator config -->
-                <plugin>
-                    <groupId>org.mybatis.generator</groupId>
-                    <artifactId>mybatis-generator-maven-plugin</artifactId>
-                    <version>${mybatis-generator-maven-plugin.version}</version>
-                    <configuration>
-                        <configurationFile>${basedir}/src/main/resources/generator/generatorConfig.xml
-                        </configurationFile>
-                        <overwrite>true</overwrite>
-                        <verbose>true</verbose>
-                    </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>mysql</groupId>
-                            <artifactId>mysql-connector-java</artifactId>
-                            <version>8.0.17</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>tk.mybatis</groupId>
-                            <artifactId>mapper</artifactId>
-                            <version>4.1.5</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-
                 <!-- javadoc config -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -507,38 +481,6 @@
                             </goals>
                         </execution>
                     </executions>
-                </plugin>
-
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>
-                                            org.apache.maven.plugins
-                                        </groupId>
-                                        <artifactId>
-                                            maven-jar-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [2.4,)
-                                        </versionRange>
-                                        <goals>
-                                            <goal>jar</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -554,29 +496,6 @@
             <properties>
                 <javadoc.opts>-Xdoclint:none</javadoc.opts>
             </properties>
-        </profile>
-
-        <profile>
-            <id>release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-release-plugin</artifactId>
-                        <version>2.5.3</version>
-                        <configuration>
-                            <autoVersionSubmodules>true</autoVersionSubmodules>
-                            <useReleaseProfile>false</useReleaseProfile>
-                            <releaseProfiles>release</releaseProfiles>
-                            <goals>deploy</goals>
-                        </configuration>
-                    </plugin>
-                    <!--<plugin> -->
-                    <!--<groupId>org.apache.maven.plugins</groupId> -->
-                    <!--<artifactId>maven-javadoc-plugin</artifactId> -->
-                    <!--</plugin> -->
-                </plugins>
-            </build>
         </profile>
     </profiles>
 

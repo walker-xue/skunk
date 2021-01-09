@@ -1,9 +1,10 @@
 package com.skunk.core.filter;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.Optional;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * 列表接口过滤器定义
@@ -54,14 +55,13 @@ public interface ListFilter {
      * @param paramKey
      * @return
      */
-    Optional<Object> getParamValue(String paramKey);
+    Optional<Object> getParamValue(@NotBlank String paramKey);
 
     /**
      * @param paramKey
      * @return
      */
-    Optional<String> getParamValueToString(String paramKey);
-
+    Optional<String> getParamValueToString(@NotBlank String paramKey);
 
     /**
      * 请求参数转化成对象
@@ -70,5 +70,5 @@ public interface ListFilter {
      * @param <T>
      * @return
      */
-    <T> Optional<T> paramsToObject(Class<T> clazz);
+    <T> Optional<T> paramsToClass(@NotNull Class<T> clazz);
 }

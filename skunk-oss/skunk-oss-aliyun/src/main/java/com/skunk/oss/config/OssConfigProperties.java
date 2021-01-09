@@ -2,6 +2,9 @@ package com.skunk.oss.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+/**
+ * @author walker
+ */
 @lombok.Data
 @ConfigurationProperties(prefix = "aliyun.oss")
 public class OssConfigProperties {
@@ -20,7 +23,6 @@ public class OssConfigProperties {
         private int maxPoolSize = 5;
         private int queueCapacity = 1000;
         private int keepAliveSeconds = 300;
-
     }
 
 }

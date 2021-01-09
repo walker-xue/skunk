@@ -1,4 +1,4 @@
-package com.skunk.oss.event;
+package com.skunk.oss.events;
 
 import java.io.File;
 

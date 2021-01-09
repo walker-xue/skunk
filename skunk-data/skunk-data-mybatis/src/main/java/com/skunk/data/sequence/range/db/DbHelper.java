@@ -22,8 +22,10 @@ public abstract class DbHelper {
 
     private static final long DELTA = 100000000L;
 
-    private final static String SQL_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS #tableName( id bigint(20) NOT NULL AUTO_INCREMENT, value bigint(20) NOT NULL," + "name varchar(32) NOT NULL," + "gmt_create DATETIME NOT NULL,"
-        + "gmt_modified DATETIME NOT NULL," + "PRIMARY KEY (`id`),UNIQUE uk_name (`name`)" + ")";
+    private final static String SQL_CREATE_TABLE =
+        "CREATE TABLE IF NOT EXISTS #tableName( id bigint(20) NOT NULL AUTO_INCREMENT, value bigint(20) NOT NULL," + "name varchar(32) NOT NULL,"
+            + "gmt_create DATETIME NOT NULL,"
+            + "gmt_modified DATETIME NOT NULL," + "PRIMARY KEY (`id`),UNIQUE uk_name (`name`)" + ")";
     private final static String SQL_INSERT_RANGE =
         "INSERT IGNORE INTO #tableName(name,value,gmt_create,gmt_modified)" + " VALUE(?,?,?,?)";
     private final static String SQL_UPDATE_RANGE =

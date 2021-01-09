@@ -3,20 +3,18 @@ package com.skunk.core.filter;
 /**
  * 分页接口定义
  *
- * @author walkerＳ
+ * @author walker
  * @since 2019年5月13日
  */
 public interface PageFilter extends ListFilter {
 
-    // 显示行数
+    /* 显示行数 */
     String PAGE_SIZE = "pageSize";
 
-    // 第几页
+    /* 第几页 */
     String PAGE_NO = "pageNo";
 
-    /**
-     * 默认显示行
-     */
+    /* 默认显示行 */
     int DEFAULT_PAGE_SIZE = 10;
 
     /**

@@ -44,7 +44,10 @@ public class DbSequenceBuilder implements SequenceBuilder {
      * 序列号分配起始值[可选：默认：0]
      */
     private long stepStart = 0;
-
+    public static DbSequenceBuilder create() {
+        DbSequenceBuilder builder = new DbSequenceBuilder();
+        return builder;
+    }
     @Override
     public NumSequence build() {
         //利用DB获取区间管理器
@@ -60,12 +63,6 @@ public class DbSequenceBuilder implements SequenceBuilder {
         sequence.setSequenceRangeMgr(dbSeqRangeMgr);
         return sequence;
     }
-
-    public static DbSequenceBuilder create() {
-        DbSequenceBuilder builder = new DbSequenceBuilder();
-        return builder;
-    }
-
     public DbSequenceBuilder dataSource(DataSource dataSource) {
         this.dataSource = dataSource;
         return this;

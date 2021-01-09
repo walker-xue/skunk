@@ -1,12 +1,5 @@
 package com.skunk.core.utils;
 
-import com.skunk.core.collectors.Collection2Utils;
-import com.skunk.core.io.FastByteArrayOutputStream;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.cglib.beans.BeanCopier;
-import org.springframework.cglib.beans.BeanMap;
-import org.springframework.util.CollectionUtils;
-
 import java.beans.PropertyDescriptor;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
@@ -15,9 +8,28 @@ import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+
+import org.springframework.cglib.beans.BeanCopier;
+import org.springframework.cglib.beans.BeanMap;
+import org.springframework.util.CollectionUtils;
+
+import com.skunk.core.collectors.Collection2Utils;
+import com.skunk.core.io.FastByteArrayOutputStream;
+
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 对象操作工具类
@@ -29,19 +41,31 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Objects2 {
 
-    public static <T> String requireNonBlank(String src) {
-        if (String2Utils.isBlank(src)) {
-            throw new NullPointerException();
-        } else {
-            return src;
-        }
+    /**
+     * 检查src是否为空，若为空则抛出NullPointerException异常
+     * “” 为空
+     * “ ” 为空
+     * null 为空
+     *
+     * @param src
+     */
+    public static void requireNotBlank(String src) {
+        requireNotBlank(src, null);
     }
 
-    public static <T> String requireNonNull(String src, String message) {
+    /**
+     * 检查src是否为空，若为空则抛出NullPointerException异常
+     * “” 为空
+     * “ ” 为空
+     * null 为空
+     *
+     * @param src
+     * @param message
+     *     异常提示信息
+     */
+    public static void requireNotBlank(String src, String message) {
         if (String2Utils.isBlank(src)) {
             throw new NullPointerException(message);
-        } else {
-            return src;
         }
     }
 
@@ -53,8 +77,10 @@ public class Objects2 {
      * 2. obj1.equals(obj2)
      * </code>
      *
-     * @param obj1 对象1
-     * @param obj2 对象2
+     * @param obj1
+     *     对象1
+     * @param obj2
+     *     对象2
      * @return 是否相等
      */
     @Deprecated
@@ -65,7 +91,8 @@ public class Objects2 {
     /**
      * <p>计算对象长度，如果是字符串调用其length函数，集合类调用其size函数，数组调用其length属性，其他可遍历对象遍历计算长度</p>
      *
-     * @param obj 被计算长度的对象
+     * @param obj
+     *     被计算长度的对象
      * @return 长度
      */
     public static int length(Object obj) {
@@ -110,8 +137,10 @@ public class Objects2 {
     /**
      * 对象中是否包含元素
      *
-     * @param obj     对象
-     * @param element 元素
+     * @param obj
+     *     对象
+     * @param element
+     *     元素
      * @return 是否包含
      */
     public static boolean contains(Object obj, Object element) {
@@ -128,7 +157,7 @@ public class Objects2 {
             return ((Collection<?>) obj).contains(element);
         }
         if (obj instanceof Map) {
-            return ((Map<?, ?>) obj).values().contains(element);
+            return ((Map<?, ?>) obj).containsValue(element);
         }
 
         if (obj instanceof Iterator) {
@@ -166,7 +195,8 @@ public class Objects2 {
     /**
      * 检查对象是否为null
      *
-     * @param obj 对象
+     * @param obj
+     *     对象
      * @return 是否为null
      */
     public static boolean isNull(Object obj) {
@@ -176,7 +206,8 @@ public class Objects2 {
     /**
      * 检查对象是否不为null
      *
-     * @param obj 对象
+     * @param obj
+     *     对象
      * @return 是否为null
      */
     public static boolean isNotNull(Object obj) {
@@ -188,7 +219,8 @@ public class Objects2 {
      * 对象必须实现Serializable接口
      *
      * @param <T>
-     * @param t   要被序列化的对象
+     * @param t
+     *     要被序列化的对象
      * @return 序列化后的字节码
      */
     public static <T> byte[] serialize(T t) {
@@ -210,7 +242,8 @@ public class Objects2 {
      * 对象必须实现Serializable接口
      *
      * @param <T>
-     * @param bytes 反序列化的字节码
+     * @param bytes
+     *     反序列化的字节码
      * @return 反序列化后的对象
      */
     @SuppressWarnings("unchecked")
@@ -227,19 +260,16 @@ public class Objects2 {
      * 检查Double和Float是否为无限大，或者Not a Number<br>
      * 非数字类型和Null将返回true
      *
-     * @param obj 被检查类型
+     * @param obj
+     *     被检查类型
      * @return 检查结果，非数字类型和Null将返回true
      */
     public static boolean isValidIfNumber(Object obj) {
         if (obj != null && obj instanceof Number) {
             if (obj instanceof Double) {
-                if (((Double) obj).isInfinite() || ((Double) obj).isNaN()) {
-                    return false;
-                }
+                return !((Double) obj).isInfinite() && !((Double) obj).isNaN();
             } else if (obj instanceof Float) {
-                if (((Float) obj).isInfinite() || ((Float) obj).isNaN()) {
-                    return false;
-                }
+                return !((Float) obj).isInfinite() && !((Float) obj).isNaN();
             }
         }
         return true;
@@ -248,10 +278,14 @@ public class Objects2 {
     /**
      * 将List中的对象拷贝到目标对象的List中(标准Bean)
      *
-     * @param sourceList 源List
-     * @param targetCls  目标对象类型
-     * @param <T>        源类型
-     * @param <R>        目标类型
+     * @param sourceList
+     *     源List
+     * @param targetCls
+     *     目标对象类型
+     * @param <T>
+     *     源类型
+     * @param <R>
+     *     目标类型
      * @return 目标类型List数组
      */
     public static <T, R> List<R> beanCopyForList(List<T> sourceList, Class<R> targetCls) {
@@ -267,8 +301,10 @@ public class Objects2 {
     /**
      * 属性值拷贝(标准Bean)
      *
-     * @param source    源对象
-     * @param targetCls 目标对象类
+     * @param source
+     *     源对象
+     * @param targetCls
+     *     目标对象类
      * @return 拷贝目标类的实体
      */
     public static <R> R beanCopyForBean(Object source, Class<R> targetCls) {
@@ -280,9 +316,7 @@ public class Objects2 {
         try {
             R target = targetCls.getDeclaredConstructor().newInstance();
             BeanCopier copier = BeanCopier.create(source.getClass(), targetCls, false);
-            if (source != null) {
-                copier.copy(source, target, null);
-            }
+            copier.copy(source, target, null);
             return target;
         } catch (InstantiationException e) {
             throw new RuntimeException("Instantiation target error.");
@@ -320,9 +354,12 @@ public class Objects2 {
      * Apache Commons BeanUtils
      *  
      *
-     * @param source           原对象
-     * @param target           目标对象
-     * @param ignoreProperties 排除要copy的属性
+     * @param source
+     *     原对象
+     * @param target
+     *     目标对象
+     * @param ignoreProperties
+     *     排除要copy的属性
      * @return
      */
     public static <T> T copy(Object source, Class<T> target, String... ignoreProperties) {
@@ -347,9 +384,12 @@ public class Objects2 {
      * 方法说明：对象转换(List)
      *  
      *
-     * @param list             原对象
-     * @param target           目标对象
-     * @param ignoreProperties 排除要copy的属性
+     * @param list
+     *     原对象
+     * @param target
+     *     目标对象
+     * @param ignoreProperties
+     *     排除要copy的属性
      * @return
      */
     public static <T, E> List<T> copyForList(List<E> list, Class<T> target, String... ignoreProperties) {
@@ -392,6 +432,7 @@ public class Objects2 {
      * @param clazz
      * @return
      */
+    @SneakyThrows
     public static <T> Optional<T> mapToBean(Map<String, Object> map, Class<T> clazz) {
 
         if (Objects.isNull(map)) {
@@ -399,7 +440,7 @@ public class Objects2 {
         }
 
         try {
-            T bean = clazz.newInstance();
+            T bean = clazz.getDeclaredConstructor().newInstance();
             return mapToBean(map, bean);
         } catch (InstantiationException e) {
             throw new RuntimeException(e);
@@ -415,6 +456,7 @@ public class Objects2 {
      * @param obj
      * @return 属性值
      */
+    @SneakyThrows
     public static Object getObjectPropertyValue(String propertyName, Object obj) {
         if (Objects.isNull(obj)) {
             return null;
@@ -423,11 +465,7 @@ public class Objects2 {
             return ((Map) obj).get(propertyName);
         }
         PropertyDescriptor descriptor = org.springframework.beans.BeanUtils.getPropertyDescriptor(obj.getClass(), propertyName);
-        try {
-            return descriptor.getReadMethod().invoke(obj, new Object[]{});
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return descriptor.getReadMethod().invoke(obj);
     }
 
     /**
@@ -454,9 +492,12 @@ public class Objects2 {
      * <p>
      * 可以指定对象要复制的属性
      *
-     * @param source     　源对象
-     * @param target     　目标对象
-     * @param properties 　指定的属性
+     * @param source
+     *     　源对象
+     * @param target
+     *     　目标对象
+     * @param properties
+     *     　指定的属性
      */
     @Deprecated
     public static void beanCopyProperties(Object source, Object target, String[] properties) {
@@ -478,12 +519,12 @@ public class Objects2 {
                 if (!Modifier.isPublic(readMethod.getDeclaringClass().getModifiers())) {
                     readMethod.setAccessible(true);
                 }
-                Object value = readMethod.invoke(source, new Object[0]);
+                Object value = readMethod.invoke(source);
                 Method writeMethod = targetPd.getWriteMethod();
                 if (!Modifier.isPublic(writeMethod.getDeclaringClass().getModifiers())) {
                     writeMethod.setAccessible(true);
                 }
-                writeMethod.invoke(target, new Object[]{value});
+                writeMethod.invoke(target, value);
             } catch (Throwable ex) {
                 log.error("Could not copy properties from source to target", ex);
             }

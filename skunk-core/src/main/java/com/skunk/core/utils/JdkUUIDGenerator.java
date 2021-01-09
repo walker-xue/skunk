@@ -1,8 +1,8 @@
 package com.skunk.core.utils;
 
-import org.springframework.util.JdkIdGenerator;
-
 import java.util.UUID;
+
+import org.springframework.util.JdkIdGenerator;
 
 /**
  * @author walker

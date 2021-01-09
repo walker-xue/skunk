@@ -9,7 +9,7 @@ import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import com.skunk.core.exception.BaseException;
 import com.skunk.oss.config.OssConfigProperties;
-import com.skunk.oss.event.OssEvent;
+import com.skunk.oss.events.OssEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

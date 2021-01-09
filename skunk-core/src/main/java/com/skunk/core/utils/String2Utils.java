@@ -1,19 +1,23 @@
 package com.skunk.core.utils;
 
-import org.springframework.util.Assert;
-import org.springframework.util.Base64Utils;
-import org.springframework.util.StringUtils;
-
-import javax.validation.constraints.NotNull;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.util.Assert;
+import org.springframework.util.Base64Utils;
+import org.springframework.util.StringUtils;
 
 /**
- * 字符串工具类（CharSequenceUtils）
+ * 字符串工具类（String2Utils）
  *
  * @author walker
  * @since 2018年12月31日
@@ -22,6 +26,7 @@ public class String2Utils extends StringUtils {
 
     public static final String DOT = ".";
     public static final String EMPTY = "";
+    public static final char UNDERLINE = '_';
 
     /**
      * 判断是否Base64
@@ -53,7 +58,8 @@ public class String2Utils extends StringUtils {
      * StringUtils.isBlank("  bob  ") = false
      * </pre>
      *
-     * @param cs the CharSequence to check, may be null
+     * @param cs
+     *     the CharSequence to check, may be null
      * @return {@code true} if the CharSequence is null, empty or whitespace only
      * @since 2.0
      * @since 3.0 Changed signature from isBlank(String) to isBlank(CharSequence)
@@ -84,7 +90,8 @@ public class String2Utils extends StringUtils {
      * StringUtils.isNotBlank("  bob  ") = true
      * </pre>
      *
-     * @param cs the CharSequence to check, may be null
+     * @param cs
+     *     the CharSequence to check, may be null
      * @return {@code true} if the CharSequence is
      * not empty and not null and not whitespace only
      * @since 2.0
@@ -98,7 +105,8 @@ public class String2Utils extends StringUtils {
      * Gets a CharSequence length or {@code 0} if the CharSequence is
      * {@code null}.
      *
-     * @param cs a CharSequence or {@code null}
+     * @param cs
+     *     a CharSequence or {@code null}
      * @return CharSequence length or {@code 0} if the CharSequence is
      * {@code null}.
      * @since 2.4
@@ -107,7 +115,6 @@ public class String2Utils extends StringUtils {
     public static int length(final CharSequence cs) {
         return cs == null ? 0 : cs.length();
     }
-
 
     /**
      * <p>Checks if a CharSequence is not empty ("") and not null.</p>
@@ -120,7 +127,8 @@ public class String2Utils extends StringUtils {
      * StringUtils.isNotEmpty("  bob  ") = true
      * </pre>
      *
-     * @param cs the CharSequence to check, may be null
+     * @param cs
+     *     the CharSequence to check, may be null
      * @return {@code true} if the CharSequence is not empty and not null
      * @since 3.0 Changed signature from isNotEmpty(String) to isNotEmpty(CharSequence)
      */
@@ -131,13 +139,19 @@ public class String2Utils extends StringUtils {
     /**
      * 过滤空串
      *
-     * @param str 字符串
+     * @param str
+     *     字符串
      * @return 返回结果
      */
     public static String filterNull(String str) {
         return Objects.isNull(str) ? "" : str.trim();
     }
 
+    /**
+     * @param str
+     * @param flag
+     * @return
+     */
     public static boolean containsAny(String str, String... flag) {
         if (str != null) {
             if (flag == null || flag.length == 0) {
@@ -152,12 +166,62 @@ public class String2Utils extends StringUtils {
         return false;
     }
 
+    /**
+     * 将下划线映射到驼峰大小写
+     *
+     * @param src
+     * @return
+     */
+    public static String underscoreToCamelCase(@NotBlank String src) {
+        Objects2.requireNotBlank(src, "src is null.");
+        src = src.trim();
+        StringBuilder builder = new StringBuilder();
+        boolean nextUpperCase = false;
+        for (int i = 0; i < src.length(); i++) {
+            char c = src.charAt(i);
+            if (UNDERLINE == c) {
+                if (builder.length() > 0) {
+                    nextUpperCase = true;
+                }
+                continue;
+            }
+            if (nextUpperCase) {
+                builder.append(Character.toUpperCase(c));
+                nextUpperCase = false;
+                continue;
+            }
+            builder.append(Character.toLowerCase(c));
+        }
+        return builder.toString();
+    }
+
+    /**
+     * 将驼峰大小写映射到下划线
+     *
+     * @param src
+     * @return
+     */
+    public static String camelCaseToUnderscore(@NotBlank String src) {
+        Objects2.requireNotBlank(src, "src is null.");
+        src = src.trim();
+        Pattern humpPattern = Pattern.compile("[A-Z]");
+
+        Matcher matcher = humpPattern.matcher(src);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, "_" + matcher.group(0).toLowerCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
 
     /**
      * 获得字符串对应byte数组
      *
-     * @param str     字符串
-     * @param charset 编码，如果为<code>null</code>使用系统默认编码
+     * @param str
+     *     字符串
+     * @param charset
+     *     编码，如果为<code>null</code>使用系统默认编码
      * @return bytes
      */
     public static byte[] getBytes(String str, Charset charset) {
@@ -179,7 +243,8 @@ public class String2Utils extends StringUtils {
     /**
      * 是否包含空字符串
      *
-     * @param strs 字符串列表
+     * @param strs
+     *     字符串列表
      * @return 是否包含空字符串
      */
     public static boolean hasBlank(String... strs) {
@@ -198,8 +263,10 @@ public class String2Utils extends StringUtils {
      * <code> a#b#c    -&gt;  [a,b,c]     </code><br>
      * <code> a##b#c  -&gt;  [a,"",b,c]  </code>
      *
-     * @param str       被切分的字符串
-     * @param separator 分隔符字符
+     * @param str
+     *     被切分的字符串
+     * @param separator
+     *     分隔符字符
      * @return 切分后的集合
      */
     public static List<String> splits(String str, char separator) {
@@ -209,9 +276,12 @@ public class String2Utils extends StringUtils {
     /**
      * 切分字符串
      *
-     * @param str       被切分的字符串
-     * @param separator 分隔符字符
-     * @param limit     限制分片数
+     * @param str
+     *     被切分的字符串
+     * @param separator
+     *     分隔符字符
+     * @param limit
+     *     限制分片数
      * @return 切分后的集合
      */
     public static List<String> split(String str, char separator, int limit) {
@@ -250,8 +320,10 @@ public class String2Utils extends StringUtils {
      * 切分字符串<br>
      * from jodd
      *
-     * @param str       被切分的字符串
-     * @param delimiter 分隔符
+     * @param str
+     *     被切分的字符串
+     * @param delimiter
+     *     分隔符
      * @return 字符串
      */
     public static String[] split(@NotNull String str, String delimiter) {
@@ -259,7 +331,7 @@ public class String2Utils extends StringUtils {
             return null;
         }
         if (str.trim().length() == 0) {
-            return new String[]{str};
+            return new String[] { str };
         }
 
         int dellen = delimiter.length(); // del length
@@ -288,8 +360,10 @@ public class String2Utils extends StringUtils {
     /**
      * 去掉指定前缀
      *
-     * @param str    字符串
-     * @param prefix 前缀
+     * @param str
+     *     字符串
+     * @param prefix
+     *     前缀
      * @return 切掉后的字符串，若前缀不是 preffix， 返回原字符串
      */
     public static String removePrefix(String str, String prefix) {
@@ -306,8 +380,10 @@ public class String2Utils extends StringUtils {
     /**
      * 切割后部分
      *
-     * @param src       字符串
-     * @param fromIndex 切割开始的位置（包括）
+     * @param src
+     *     字符串
+     * @param fromIndex
+     *     切割开始的位置（包括）
      * @return 切割后的字符串
      */
     public static String subSuf(String src, int fromIndex) {
@@ -356,12 +432,13 @@ public class String2Utils extends StringUtils {
     /**
      * 切割前部分
      *
-     * @param string  字符串
-     * @param toIndex 切割到的位置（不包括）
+     * @param string
+     *     字符串
+     * @param toIndex
+     *     切割到的位置（不包括）
      * @return 切割后的字符串
      */
     public static String subPre(String string, int toIndex) {
         return sub(string, 0, toIndex);
     }
-
 }

@@ -1,8 +1,5 @@
 package com.skunk.core.utils;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -10,6 +7,9 @@ import java.net.UnknownHostException;
 import java.util.Enumeration;
 
 import com.skunk.core.exception.HostException;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  * 获取真实本机网络的服务.

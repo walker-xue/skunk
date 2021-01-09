@@ -17,7 +17,7 @@ public class UnrealizedException extends RuntimeException {
      * 异常对应的返回码
      */
     @Getter
-    private Integer code = Integer.valueOf(400);
+    private final Integer code = Integer.valueOf(400);
 
     public UnrealizedException() {
         super();

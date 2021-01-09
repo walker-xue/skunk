@@ -33,10 +33,11 @@ public class RsaKeyHelper {
      * 生存rsa公钥
      *
      * @param password
+     *     密碼
      * @throws IOException
      * @throws NoSuchAlgorithmException
      */
-    public static byte[] generatePublicKey(String password) throws IOException, NoSuchAlgorithmException {
+    public static byte[] generatePublicKey(String password) throws NoSuchAlgorithmException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RSA_KEY);
         SecureRandom secureRandom = new SecureRandom(password.getBytes());
         keyPairGenerator.initialize(1024, secureRandom);
@@ -50,14 +51,14 @@ public class RsaKeyHelper {
      * @throws IOException
      * @throws NoSuchAlgorithmException
      */
-    public static byte[] generatePrivateKey(String password) throws IOException, NoSuchAlgorithmException {
+    public static byte[] generatePrivateKey(String password) throws NoSuchAlgorithmException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RSA_KEY);
         SecureRandom secureRandom = new SecureRandom(password.getBytes());
         keyPairGenerator.initialize(1024, secureRandom);
         KeyPair keyPair = keyPairGenerator.genKeyPair();
         return keyPair.getPrivate().getEncoded();
     }
-    public static Map<String, byte[]> generateKey(String password) throws IOException, NoSuchAlgorithmException {
+    public static Map<String, byte[]> generateKey(String password) throws NoSuchAlgorithmException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RSA_KEY);
         SecureRandom secureRandom = new SecureRandom(password.getBytes());
         keyPairGenerator.initialize(1024, secureRandom);
@@ -72,7 +73,7 @@ public class RsaKeyHelper {
     public static String toHexString(byte[] b) {
         return encoder.encodeToString(b);
     }
-    public static final byte[] toBytes(String s) throws IOException {
+    public static byte[] toBytes(String s) {
         return Base64.getMimeDecoder().decode(s);
     }
     /**
@@ -85,7 +86,7 @@ public class RsaKeyHelper {
     public PublicKey getPublicKey(String filename) throws InvalidKeySpecException {
         byte[] keyBytes;
         try (InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream(filename);
-             DataInputStream dis = new DataInputStream(resourceAsStream);) {
+             DataInputStream dis = new DataInputStream(resourceAsStream)) {
             keyBytes = new byte[resourceAsStream.available()];
             dis.readFully(keyBytes);
         } catch (IOException e) {
@@ -93,7 +94,6 @@ public class RsaKeyHelper {
         }
 
         X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
-
         try {
             KeyFactory kf = KeyFactory.getInstance(RSA_KEY);
             return kf.generatePublic(spec);
@@ -119,7 +119,6 @@ public class RsaKeyHelper {
         }
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
         try {
-
             KeyFactory kf = KeyFactory.getInstance(RSA_KEY);
             return kf.generatePrivate(spec);
         } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {

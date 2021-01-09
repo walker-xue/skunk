@@ -1,9 +1,8 @@
 package com.skunk.core;
 
-import org.springframework.core.style.ToStringCreator;
-
 import java.io.Serializable;
 
+import org.springframework.core.style.ToStringCreator;
 
 /**
  * 基础实体类

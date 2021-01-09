@@ -1,11 +1,12 @@
 package com.skunk.core;
 
+import java.sql.Timestamp;
+
 import com.skunk.core.http.HttpStatus;
 import com.skunk.core.validation.Validate;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import java.sql.Timestamp;
 
 /**
  * 通用接口响应数据包，包含响应code、响应的数据包data、消息message说明

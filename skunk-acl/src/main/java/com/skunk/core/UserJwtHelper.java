@@ -22,7 +22,7 @@ public class UserJwtHelper {
     public static final String JWT_KEY_NOTES_ID = "notesId";
     public static final String JWT_KEY_NOTES_NAME = "notesName";
 
-    private static RsaKeyHelper rsaKeyHelper = new RsaKeyHelper();
+    private static final RsaKeyHelper rsaKeyHelper = new RsaKeyHelper();
 
     /**
      * 密钥加密token
@@ -52,7 +52,7 @@ public class UserJwtHelper {
      * @return
      * @throws Exception
      */
-    public static String generateToken(UserJwt jwtInfo, byte priKey[], int expire) throws Exception {
+    public static String generateToken(UserJwt jwtInfo, byte[] priKey, int expire) throws Exception {
         return Jwts.builder()
             .setSubject(jwtInfo.getUserCode())
             .claim(JWT_KEY_NOTES_ID, jwtInfo.getNotesId())
@@ -105,7 +105,7 @@ public class UserJwtHelper {
      * @return
      * @throws Exception
      */
-    public static UserJwt getInfoFromToken(String token, String pubKeyPath) throws Exception {
+    public static UserJwt getInfoFromToken(String token, String pubKeyPath) {
         Jws<Claims> claimsJws = parserToken(token, pubKeyPath);
         Claims body = claimsJws.getBody();
         return new UserJwtInfo(body.getSubject(), getObjectValue(body.get(JWT_KEY_NOTES_ID)), getObjectValue(body.get(JWT_KEY_NOTES_NAME)));
@@ -119,7 +119,7 @@ public class UserJwtHelper {
      * @return
      * @throws Exception
      */
-    public static UserJwt getInfoFromToken(String token, byte[] pubKey) throws Exception {
+    public static UserJwt getInfoFromToken(String token, byte[] pubKey) {
         Jws<Claims> claimsJws = parserToken(token, pubKey);
         Claims body = claimsJws.getBody();
         return new UserJwtInfo(body.getSubject(), getObjectValue(body.get(JWT_KEY_NOTES_ID)), getObjectValue(body.get(JWT_KEY_NOTES_NAME)));

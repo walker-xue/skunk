@@ -21,19 +21,12 @@ import com.skunk.data.sequence.range.SequenceRangeManager;
 @Component
 public class DbSequenceRangeManager implements SequenceRangeManager {
 
-    @Autowired
-    DataSource dataSource;
-
-    public DbSequenceRangeManager(DataSource dataSource) {
-        if (!Objects.isNull(dataSource)) {
-            this.dataSource = dataSource;
-        }
-    }
     /**
      * 表名前缀，为防止数据库表名冲突，默认带上这个前缀
      */
     private final static String TABLENAME_PREFIX = "x_sequence_";
-
+    @Autowired
+    DataSource dataSource;
     /**
      * 区间步长
      */
@@ -50,7 +43,11 @@ public class DbSequenceRangeManager implements SequenceRangeManager {
      * 表名，默认range
      */
     private String tableName = "range";
-
+    public DbSequenceRangeManager(DataSource dataSource) {
+        if (!Objects.isNull(dataSource)) {
+            this.dataSource = dataSource;
+        }
+    }
     @Override
     public SequenceRange nextRange(String name) throws SequenceException {
         if (isEmpty(name)) {

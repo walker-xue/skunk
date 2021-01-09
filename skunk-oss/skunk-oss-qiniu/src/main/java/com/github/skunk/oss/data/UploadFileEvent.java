@@ -1,7 +1,7 @@
 package com.skunk.oss.data;
 
 import com.skunk.oss.data.domain.OssFile;
-import com.skunk.oss.event.OssEvent;
+import com.skunk.oss.events.OssEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

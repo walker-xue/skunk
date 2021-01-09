@@ -1,9 +1,14 @@
 package com.skunk.core.utils;
 
-import lombok.extern.slf4j.Slf4j;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
 import org.springframework.util.StringUtils;
 
-import java.lang.reflect.*;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 反射工具类型
@@ -21,7 +26,7 @@ public class ReflectionUtils {
      */
     public static Object invokeGetterMethod(Object obj, String propertyName) {
         String getterMethodName = "get" + StringUtils.capitalize(propertyName);
-        return invokeMethod(obj, getterMethodName, new Class[]{}, new Object[]{});
+        return invokeMethod(obj, getterMethodName, new Class[] {}, new Object[] {});
     }
 
     /**
@@ -42,7 +47,7 @@ public class ReflectionUtils {
     public static void invokeSetterMethod(Object obj, String propertyName, Object value, Class<?> propertyType) {
         Class<?> type = propertyType != null ? propertyType : value.getClass();
         String setterMethodName = "set" + StringUtils.capitalize(propertyName);
-        invokeMethod(obj, setterMethodName, new Class[]{type}, new Object[]{value});
+        invokeMethod(obj, setterMethodName, new Class[] { type }, new Object[] { value });
     }
 
     /**
@@ -136,7 +141,7 @@ public class ReflectionUtils {
      * @param <T>
      * @return 返回对应泛型的类型
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static <T> Class<T> getSuperClassGenricType(final Class clazz) {
         return getSuperClassGenricType(clazz, 0);
     }

@@ -281,8 +281,8 @@ public class SqlMapper {
 
     private class MSUtils {
 
-        private Configuration configuration;
-        private LanguageDriver languageDriver;
+        private final Configuration configuration;
+        private final LanguageDriver languageDriver;
 
         private MSUtils(Configuration configuration) {
             this.configuration = configuration;

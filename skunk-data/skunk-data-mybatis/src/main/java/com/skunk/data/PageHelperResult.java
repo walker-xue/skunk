@@ -21,10 +21,6 @@ public class PageHelperResult<E> extends PageResult {
         this.footer = Collections.emptyList();
     }
 
-    public static <E> PageHelperResult<E> build(List<E> list) {
-        return new PageHelperResult(list);
-    }
-
     public PageHelperResult(long total, List<E> list) {
         super(total, list);
         if (list instanceof Page) {
@@ -38,7 +34,9 @@ public class PageHelperResult<E> extends PageResult {
         this.list = list;
         this.footer = Collections.emptyList();
     }
-
+    public static <E> PageHelperResult<E> build(List<E> list) {
+        return new PageHelperResult(list);
+    }
     public static <E> PageHelperResult<E> build(long total, List<E> list) {
         return new PageHelperResult(total, list);
     }

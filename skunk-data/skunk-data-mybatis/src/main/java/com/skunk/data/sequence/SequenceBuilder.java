@@ -5,7 +5,6 @@ import com.skunk.data.sequence.sequence.NumSequence;
 /**
  * 序列号生成器构建者
  *
- *
  * @author nanfeng
  * @date 2019年12月7日
  * @since 0.0.1

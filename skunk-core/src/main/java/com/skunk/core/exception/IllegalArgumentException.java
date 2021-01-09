@@ -13,32 +13,33 @@ import lombok.Getter;
  */
 public class IllegalArgumentException extends BaseException {
 
-	private static final long serialVersionUID = -1276435753880524349L;
+    private static final long serialVersionUID = -1276435753880524349L;
 
-	/**
-	 * 异常对应的返回码
-	 */
-	@Getter
-	private Integer code = Integer.valueOf(400);
+    /**
+     * 异常对应的返回码
+     */
+    @Getter
+    private final Integer code = Integer.valueOf(400);
 
-	public IllegalArgumentException() {
-		super();
-	}
+    public IllegalArgumentException() {
+        super();
+    }
 
-	/**
-	 * @param message 异常ｍｅｓｓａｇｅ
-	 */
-	public IllegalArgumentException(String message) {
-		super(message);
-	}
+    /**
+     * @param message
+     *     异常ｍｅｓｓａｇｅ
+     */
+    public IllegalArgumentException(String message) {
+        super(message);
+    }
 
-	/**
-	 * 不输出异常堆栈信息
-	 *
-	 * @return
-	 */
-	@Override
-	public Throwable fillInStackTrace() {
-		return this;
-	}
+    /**
+     * 不输出异常堆栈信息
+     *
+     * @return
+     */
+    @Override
+    public Throwable fillInStackTrace() {
+        return this;
+    }
 }

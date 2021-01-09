@@ -1,7 +1,5 @@
 package com.donkeycode.boot;
 
-import java.net.UnknownHostException;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
@@ -17,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ComponentScan
 public class StarUpAdminApp {
 
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) {
         SpringApplication.run(StarUpAdminApp.class, args);
     }
 

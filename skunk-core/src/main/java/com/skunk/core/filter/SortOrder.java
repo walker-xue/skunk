@@ -1,9 +1,8 @@
 package com.skunk.core.filter;
 
-import com.skunk.core.validation.Validate;
-
 import javax.validation.constraints.NotBlank;
 
+import com.skunk.core.validation.Validate;
 
 /**
  * 排序结构体定义
@@ -27,7 +26,7 @@ public class SortOrder {
         DESC("desc"),
         ASC("asc");
 
-        private String sort;
+        private final String sort;
 
         Type(String sort) {
             this.sort = sort;

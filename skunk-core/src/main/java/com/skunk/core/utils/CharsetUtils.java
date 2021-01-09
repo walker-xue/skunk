@@ -22,7 +22,6 @@ public class CharsetUtils {
      * UTF-8
      */
     public static final Charset CHARSET_UTF_8 = StandardCharsets.UTF_8;
-    ;
     /**
      * GBK
      */
@@ -35,7 +34,8 @@ public class CharsetUtils {
     /**
      * 转换为Charset对象
      *
-     * @param charset 字符集，为空则返回默认字符集
+     * @param charset
+     *     字符集，为空则返回默认字符集
      * @return Charset
      */
     public static Charset charset(String charset) {
@@ -45,9 +45,12 @@ public class CharsetUtils {
     /**
      * 转换字符串的字符集编码
      *
-     * @param source      字符串
-     * @param srcCharset  源字符集，默认ISO-8859-1
-     * @param destCharset 目标字符集，默认UTF-8
+     * @param source
+     *     字符串
+     * @param srcCharset
+     *     源字符集，默认ISO-8859-1
+     * @param destCharset
+     *     目标字符集，默认UTF-8
      * @return 转换后的字符集
      */
     public static String convert(String source, String srcCharset, String destCharset) {
@@ -57,9 +60,12 @@ public class CharsetUtils {
     /**
      * 转换字符串的字符集编码
      *
-     * @param source      字符串
-     * @param srcCharset  源字符集，默认ISO-8859-1
-     * @param destCharset 目标字符集，默认UTF-8
+     * @param source
+     *     字符串
+     * @param srcCharset
+     *     源字符集，默认ISO-8859-1
+     * @param destCharset
+     *     目标字符集，默认UTF-8
      * @return 转换后的字符集
      */
     public static String convert(String source, Charset srcCharset, Charset destCharset) {

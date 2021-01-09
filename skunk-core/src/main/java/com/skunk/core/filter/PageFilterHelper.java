@@ -1,9 +1,9 @@
 package com.skunk.core.filter;
 
+import java.util.Map;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Map;
 
 /**
  * 分页插件实现
@@ -24,11 +24,9 @@ public class PageFilterHelper extends ListFilterHelper implements PageFilter {
     /* 是否计算总页数 */
     private boolean isQueryTotal;
 
-
     PageFilterHelper(SortOrder.Type orderMethod, String orderField, Map<String, Object> params) {
         super(orderMethod, orderField, params);
     }
-
 
     private PageFilterHelper(Builder builder) {
         super();
@@ -39,6 +37,31 @@ public class PageFilterHelper extends ListFilterHelper implements PageFilter {
         this.orderField = builder.orderField;
         this.orderMethod = builder.orderMethod;
     }
+    @Override
+    public int getPageNo() {
+        return pageNo;
+    }
+    @Override
+    public int getPageSize() {
+        return pageSize;
+    }
+    @Override
+    public ListFilter listFilter() {
+
+        return ListFilterHelper.builder()
+            .params(getParams())
+            .orderField(orderField)
+            .orderMethod(orderMethod)
+            .build();
+    }
+    @Override
+    public void setIsQueryTotal(boolean notQueryTotalNum) {
+        this.isQueryTotal = notQueryTotalNum;
+    }
+    @Override
+    public boolean isQueryTotal() {
+        return !isQueryTotal;
+    }
 
     public static class Builder {
 
@@ -48,7 +71,6 @@ public class PageFilterHelper extends ListFilterHelper implements PageFilter {
         private Map<String, Object> params;
         private String orderField;
         private SortOrder.Type orderMethod;
-
 
         public Builder pageNo(int pageNo) {
             this.pageNo = pageNo;
@@ -80,43 +102,9 @@ public class PageFilterHelper extends ListFilterHelper implements PageFilter {
             return this;
         }
 
-
         public PageFilterHelper build() {
             return new PageFilterHelper(this);
         }
-    }
-
-
-    @Override
-    public int getPageNo() {
-        return pageNo;
-    }
-
-    @Override
-    public int getPageSize() {
-        return pageSize;
-    }
-
-
-    @Override
-    public ListFilter listFilter() {
-
-        return ListFilterHelper.builder()
-            .params(getParams())
-            .orderField(orderField)
-            .orderMethod(orderMethod)
-            .build();
-    }
-
-
-    @Override
-    public void setIsQueryTotal(boolean notQueryTotalNum) {
-        this.isQueryTotal = notQueryTotalNum;
-    }
-
-    @Override
-    public boolean isQueryTotal() {
-        return !isQueryTotal;
     }
 
 }

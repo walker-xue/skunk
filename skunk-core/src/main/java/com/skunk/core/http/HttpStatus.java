@@ -419,20 +419,6 @@ public enum HttpStatus {
         this.value = value;
         this.reasonPhrase = reasonPhrase;
     }
-
-    public int value() {
-        return this.value;
-    }
-
-    public String getReasonPhrase() {
-        return this.reasonPhrase;
-    }
-
-    @Override
-    public String toString() {
-        return this.value + " " + name();
-    }
-
     public static HttpStatus valueOf(int statusCode) {
         HttpStatus status = resolve(statusCode);
         if (status == null) {
@@ -440,7 +426,6 @@ public enum HttpStatus {
         }
         return status;
     }
-
     @Nullable
     public static HttpStatus resolve(int statusCode) {
         for (HttpStatus status : values()) {
@@ -449,5 +434,15 @@ public enum HttpStatus {
             }
         }
         return null;
+    }
+    public int value() {
+        return this.value;
+    }
+    public String getReasonPhrase() {
+        return this.reasonPhrase;
+    }
+    @Override
+    public String toString() {
+        return this.value + " " + name();
     }
 }

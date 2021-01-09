@@ -9,7 +9,7 @@ import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 文件路径
+ * 系统文件路径工具类
  *
  * @author walker
  * @since 2019年5月12日
@@ -18,11 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 public class FilePathUtils {
 
     /**
-     * 获取当前环境的临时目录
+     * 获取当前环境的用户临时目录
      *
      * @return
      */
-    public static String getJavaIoTmpdir() {
+    public static String getUserTmpDir() {
         return System.getProperty("java.io.tmpdir");
     }
 
@@ -31,13 +31,13 @@ public class FilePathUtils {
      * @return
      */
     public static <T> String getRootPath(Class<T> clazz) {
-        URL ret = clazz.getResource("/");
-        if (ret == null) {
+        URL url = clazz.getResource("/");
+        if (url == null) {
             return ".";
         }
-        log.debug(ret.getPath());
+        log.debug(url.getPath());
         try {
-            return Paths.get(ret.toURI()).toString();
+            return Paths.get(url.toURI()).toString();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

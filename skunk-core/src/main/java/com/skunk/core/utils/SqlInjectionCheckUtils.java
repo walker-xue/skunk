@@ -18,7 +18,7 @@ public class SqlInjectionCheckUtils {
      * @return 如果存在sql的关键字返回true
      */
     public static boolean isSqlInjection(String value) {
-        return String2Utils.isNotEmpty(value) ? isSqlInjection(value, injectionStr) : false;
+        return String2Utils.isNotEmpty(value) && isSqlInjection(value, injectionStr);
     }
 
     /**

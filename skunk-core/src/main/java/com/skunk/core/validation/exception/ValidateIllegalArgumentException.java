@@ -2,6 +2,8 @@ package com.skunk.core.validation.exception;
 
 public class ValidateIllegalArgumentException extends IllegalArgumentException {
 
+    private static final long serialVersionUID = -5365630128856068164L;
+
     /**
      * Constructs an <code>IllegalArgumentException</code> with no
      * detail message.
@@ -61,7 +63,5 @@ public class ValidateIllegalArgumentException extends IllegalArgumentException {
     public ValidateIllegalArgumentException(Throwable cause) {
         super(cause);
     }
-
-    private static final long serialVersionUID = -5365630128856068164L;
 
 }

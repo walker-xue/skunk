@@ -9,12 +9,14 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
+
+import com.skunk.core.utils.Objects2;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * 获取文件MD5值
- *
  *
  * @author nanfeng
  * @date 2019年12月10日
@@ -26,25 +28,27 @@ public class FileMD5Utils {
     public static final String MD5 = "MD5";
 
     /**
-     * 获取byte MD5
+     * 获取文件对应的MD5
      *
-     * @param fileByte
+     * @param bytes
      * @return
      */
-    public static String fileToMD5(byte[] fileByte) {
+    public static String fileToMD5(byte[] bytes) {
+
+        Objects.requireNonNull(bytes);
+
         try {
             MessageDigest md5 = MessageDigest.getInstance(MD5);
-            md5.update(fileByte);
+            md5.update(bytes);
             BigInteger bi = new BigInteger(1, md5.digest());
             return bi.toString(16);
         } catch (NoSuchAlgorithmException e) {
-            log.error("error:{}", e.getMessage());
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
     /**
-     * 获取文件MD5
+     * 获取文件MD5值
      *
      * @param file
      * @return
@@ -57,29 +61,32 @@ public class FileMD5Utils {
             BigInteger bi = new BigInteger(1, md5.digest());
             return bi.toString(16);
         } catch (Exception e) {
-            log.error("error:{}", e.getMessage());
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
     /**
-     * 获取文件MD5
+     * 文件转成byte
      *
      * @param filePath
+     *     文件路经
      * @return
      */
     public byte[] fileToBytes(String filePath) {
-        byte[] buffer = null;
-        try (FileInputStream fis = new FileInputStream(new File(filePath)); ByteArrayOutputStream bos = new ByteArrayOutputStream(1000)) {
+
+        Objects2.requireNotBlank(filePath);
+
+        try (FileInputStream fis = new FileInputStream(new File(filePath));
+             ByteArrayOutputStream bos = new ByteArrayOutputStream(1000)) {
             byte[] b = new byte[1000];
             int n;
             while ((n = fis.read(b)) != -1) {
                 bos.write(b, 0, n);
             }
-            buffer = bos.toByteArray();
+            bos.flush();
+            return bos.toByteArray();
         } catch (IOException e) {
-            log.error("error:{}", e.getMessage());
+            throw new RuntimeException(e);
         }
-        return buffer;
     }
 }

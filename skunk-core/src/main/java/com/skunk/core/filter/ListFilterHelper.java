@@ -1,15 +1,16 @@
 package com.skunk.core.filter;
 
-import com.skunk.core.utils.ColumnPropertyUtils;
-import com.skunk.core.utils.Objects2;
-import com.skunk.core.utils.String2Utils;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+
+import com.skunk.core.utils.ColumnPropertyUtils;
+import com.skunk.core.utils.Objects2;
+import com.skunk.core.utils.String2Utils;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 分页插件实现
@@ -55,7 +56,7 @@ public class ListFilterHelper implements ListFilter {
     @Override
     public Optional<Object> getParamValue(String paramKey) {
 
-        Objects2.requireNonBlank(paramKey);
+        Objects2.requireNotBlank(paramKey);
 
         return Optional.of(params.get(paramKey));
     }
@@ -67,7 +68,7 @@ public class ListFilterHelper implements ListFilter {
     @Override
     public Optional<String> getParamValueToString(String paramKey) {
 
-        Objects2.requireNonBlank(paramKey);
+        Objects2.requireNotBlank(paramKey);
 
         Object o = params.get(paramKey);
         if (Objects.isNull(o))
@@ -81,8 +82,8 @@ public class ListFilterHelper implements ListFilter {
      * @return
      */
     @Override
-    public <T> Optional<T> paramsToObject(Class<T> clazz) {
-
+    public <T> Optional<T> paramsToClass(Class<T> clazz) {
+        Objects.requireNonNull(clazz);
         return Objects2.mapToBean(params, clazz);
     }
 

@@ -1,18 +1,34 @@
 package com.skunk.core.collectors;
 
-import com.skunk.core.validation.Validate;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Set;
+import java.util.Stack;
+import java.util.TreeSet;
+import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.cglib.beans.BeanMap;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.lang.reflect.Array;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.function.BiConsumer;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import com.skunk.core.validation.Validate;
 
 /**
  * Java 集合处理工具类，继承了Spring 的 CollectionUtils
@@ -24,7 +40,9 @@ public final class Collection2Utils extends CollectionUtils {
 
     public static String[] listToArray(List<String> list) {
 
-        Validate.notEmpty(list);
+        if (isEmpty(list)) {
+            return new String[0];
+        }
 
         if (Collection2Utils.isNotEmpty(list)) {
             return list.toArray(new String[list.size()]);
@@ -40,14 +58,14 @@ public final class Collection2Utils extends CollectionUtils {
     }
 
     /**
-     * @param strings
-     * @return
+     * @param srcs
+     * @return 返回List<String>
      */
-    public static List<String> stringToList(String... strings) {
-        if (strings != null && strings.length > 0) {
-            return Arrays.asList(strings);
+    public static List<String> stringToList(String... srcs) {
+        if (isNotEmpty(srcs)) {
+            return Arrays.asList(srcs);
         }
-        return new ArrayList<String>();
+        return Collections.emptyList();
     }
 
     /**
@@ -55,8 +73,10 @@ public final class Collection2Utils extends CollectionUtils {
      * <p>
      * 建议直接使用 collection join
      *
-     * @param collection 集合
-     * @param delimiter  分隔符
+     * @param collection
+     *     集合
+     * @param delimiter
+     *     分隔符
      * @return 连接后的字符串
      */
     @Deprecated
@@ -71,12 +91,15 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 以 conjunction 为分隔符将数组转换为字符串
      *
-     * @param array     数组
-     * @param delimiter 分隔符
+     * @param array
+     *     数组
+     * @param delimiter
+     *     分隔符
      * @return 连接后的字符串
      */
     @Deprecated
     public static String join(@NotEmpty String[] array, @NotNull String delimiter) {
+
         Validate.notEmpty(array);
         Validate.notBlank(delimiter, "delimiter is null.");
 
@@ -86,9 +109,12 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 切取部分数据
      *
-     * @param <T>             集合元素类型
-     * @param surplusAlaDatas 原数据
-     * @param partSize        每部分数据的长度
+     * @param <T>
+     *     集合元素类型
+     * @param surplusAlaDatas
+     *     原数据
+     * @param partSize
+     *     每部分数据的长度
      * @return 切取出的数据或null
      */
     public static <T> List<T> popPart(Stack<T> surplusAlaDatas, int partSize) {
@@ -125,7 +151,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 新建一个HashMap
      *
-     * @param size 初始大小，由于默认负载因子0.75，传入的size会实际初始大小为size / 0.75
+     * @param size
+     *     初始大小，由于默认负载因子0.75，传入的size会实际初始大小为size / 0.75
      * @return HashMap对象
      */
     public static <T, K> HashMap<T, K> newHashMap(int size) {
@@ -133,17 +160,19 @@ public final class Collection2Utils extends CollectionUtils {
     }
 
     /**
-     * 新建一个HashSet
+     * 新建一个Set
      *
-     * @param ts 元素数组
+     * @param ts
+     *     元素数组
      * @return HashSet对象
      */
     @SafeVarargs
-    public static <T> HashSet<T> newHashSet(T... ts) {
-        HashSet<T> set = new HashSet<T>();
-        for (T t : ts) {
-            set.add(t);
+    public static <T> Set<T> newHashSet(T... ts) {
+        if (isEmpty(ts)) {
+            return Collections.emptySet();
         }
+        HashSet<T> set = new HashSet<T>();
+        Collections.addAll(set, ts);
         return set;
     }
 
@@ -152,29 +181,29 @@ public final class Collection2Utils extends CollectionUtils {
      *
      * @return HashSet对象
      */
-    public static <T> HashSet<T> newHashSet(Collection<T> collection) {
+    public static <T> Set<T> newHashSet(Collection<T> collection) {
         return new HashSet<T>(collection);
     }
 
     /**
      * 新建一个ArrayList
      *
-     * @param values 数组
+     * @param values
+     *     数组
      * @return ArrayList对象
      */
     @SafeVarargs
     public static <T> ArrayList<T> newArrayList(T... values) {
-        ArrayList<T> arrayList = new ArrayList<T>();
-        for (T t : values) {
-            arrayList.add(t);
-        }
+        ArrayList<T> arrayList = new ArrayList<>(values.length);
+        Collections.addAll(arrayList, values);
         return arrayList;
     }
 
     /**
      * 新建一个ArrayList
      *
-     * @param collection 集合
+     * @param collection
+     *     集合
      * @return ArrayList对象
      */
     public static <T> ArrayList<T> newArrayList(Collection<T> collection) {
@@ -185,8 +214,10 @@ public final class Collection2Utils extends CollectionUtils {
      * 将新元素添加到已有数组中<br/>
      * 添加新元素会生成一个新的数组，不影响原数组
      *
-     * @param buffer      已有数组
-     * @param newElements 新元素
+     * @param buffer
+     *     已有数组
+     * @param newElements
+     *     新元素
      * @return 新数组
      */
     @SafeVarargs
@@ -203,9 +234,12 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 生成一个新的重新设置大小的数组
      *
-     * @param buffer        原数组
-     * @param newSize       新的数组大小
-     * @param componentType 数组元素类型
+     * @param buffer
+     *     原数组
+     * @param newSize
+     *     新的数组大小
+     * @param componentType
+     *     数组元素类型
      * @return 调整后的新数组
      */
     public static <T> T[] resize(T[] buffer, int newSize, Class<?> componentType) {
@@ -219,8 +253,10 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 新建一个空数组
      *
-     * @param componentType 元素类型
-     * @param newSize       大小
+     * @param componentType
+     *     元素类型
+     * @param newSize
+     *     大小
      * @return 空数组
      */
     @SuppressWarnings("unchecked")
@@ -232,8 +268,10 @@ public final class Collection2Utils extends CollectionUtils {
      * 生成一个新的重新设置大小的数组<br/>
      * 新数组的类型为原数组的类型
      *
-     * @param buffer  原数组
-     * @param newSize 新的数组大小
+     * @param buffer
+     *     原数组
+     * @param newSize
+     *     新的数组大小
      * @return 调整后的新数组
      */
     public static <T> T[] resize(T[] buffer, int newSize) {
@@ -244,7 +282,8 @@ public final class Collection2Utils extends CollectionUtils {
      * 将多个数组合并在一起<br>
      * 忽略null的数组
      *
-     * @param arrays 数组集合
+     * @param arrays
+     *     数组集合
      * @return 合并后的数组
      */
     @SafeVarargs
@@ -276,7 +315,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 克隆数组
      *
-     * @param array 被克隆的数组
+     * @param array
+     *     被克隆的数组
      * @return 新数组
      */
     public static <T> T[] clone(T[] array) {
@@ -288,7 +328,8 @@ public final class Collection2Utils extends CollectionUtils {
      * 生成一个数字列表<br>
      * 自动判定正序反序
      *
-     * @param excludedEnd 结束的数字（不包含）
+     * @param excludedEnd
+     *     结束的数字（不包含）
      * @return 数字列表
      */
     public static int[] range(int excludedEnd) {
@@ -299,8 +340,10 @@ public final class Collection2Utils extends CollectionUtils {
      * 生成一个数字列表<br>
      * 自动判定正序反序
      *
-     * @param includedStart 开始的数字（包含）
-     * @param excludedEnd   结束的数字（不包含）
+     * @param includedStart
+     *     开始的数字（包含）
+     * @param excludedEnd
+     *     结束的数字（不包含）
      * @return 数字列表
      */
     public static int[] range(int includedStart, int excludedEnd) {
@@ -311,9 +354,12 @@ public final class Collection2Utils extends CollectionUtils {
      * 生成一个数字列表<br>
      * 自动判定正序反序
      *
-     * @param includedStart 开始的数字（包含）
-     * @param excludedEnd   结束的数字（不包含）
-     * @param step          步进
+     * @param includedStart
+     *     开始的数字（包含）
+     * @param excludedEnd
+     *     结束的数字（不包含）
+     * @param step
+     *     步进
      * @return 数字列表
      */
     public static int[] range(int includedStart, int excludedEnd, int step) {
@@ -339,9 +385,12 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 截取数组的部分
      *
-     * @param list  被截取的数组
-     * @param start 开始位置（包含）
-     * @param end   结束位置（不包含）
+     * @param list
+     *     被截取的数组
+     * @param start
+     *     开始位置（包含）
+     * @param end
+     *     结束位置（不包含）
      * @return 截取后的数组，当开始位置超过最大时，返回null
      */
     public static <T> List<T> sub(List<T> list, int start, int end) {
@@ -371,9 +420,12 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 截取集合的部分
      *
-     * @param list  被截取的数组
-     * @param start 开始位置（包含）
-     * @param end   结束位置（不包含）
+     * @param list
+     *     被截取的数组
+     * @param start
+     *     开始位置（包含）
+     * @param end
+     *     结束位置（不包含）
      * @return 截取后的数组，当开始位置超过最大时，返回null
      */
     public static <T> List<T> sub(Collection<T> list, int start, int end) {
@@ -387,17 +439,19 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 数组是否为空
      *
-     * @param array 数组
+     * @param array
+     *     数组
      * @return 是否为空
      */
     public static <T> boolean isEmpty(final T[] array) {
-        return array == null || array.length == 0;
+        return null == array || array.length == 0;
     }
 
     /**
      * 数组是否为空
      *
-     * @param array 数组
+     * @param array
+     *     数组
      * @return 是否为空
      */
     public static boolean isEmpty(final long[] array) {
@@ -407,7 +461,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 数组是否为空
      *
-     * @param array 数组
+     * @param array
+     *     数组
      * @return 是否为空
      */
     public static boolean isEmpty(final short[] array) {
@@ -417,7 +472,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 数组是否为空
      *
-     * @param array 数组
+     * @param array
+     *     数组
      * @return 是否为空
      */
     public static boolean isEmpty(final char[] array) {
@@ -427,7 +483,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 数组是否为空
      *
-     * @param array 数组
+     * @param array
+     *     数组
      * @return 是否为空
      */
     public static boolean isEmpty(final byte[] array) {
@@ -437,7 +494,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 数组是否为空
      *
-     * @param array 数组
+     * @param array
+     *     数组
      * @return 是否为空
      */
     public static boolean isEmpty(final double[] array) {
@@ -447,7 +505,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 数组是否为空
      *
-     * @param array 数组
+     * @param array
+     *     数组
      * @return 是否为空
      */
     public static boolean isEmpty(final float[] array) {
@@ -457,7 +516,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 数组是否为空
      *
-     * @param array 数组
+     * @param array
+     *     数组
      * @return 是否为空
      */
     public static boolean isEmpty(final boolean[] array) {
@@ -467,7 +527,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 集合是否为空
      *
-     * @param collection 集合
+     * @param collection
+     *     集合
      * @return 是否为空
      */
     public static boolean isEmpty(Collection<?> collection) {
@@ -477,7 +538,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * Map是否为空
      *
-     * @param map 集合
+     * @param map
+     *     集合
      * @return 是否为空
      */
     public static boolean isEmpty(Map<?, ?> map) {
@@ -487,7 +549,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * Iterable是否为空
      *
-     * @param iterable Iterable对象
+     * @param iterable
+     *     Iterable对象
      * @return 是否为空
      */
     public static boolean isEmpty(Iterable<?> iterable) {
@@ -497,7 +560,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * Iterator是否为空
      *
-     * @param Iterator Iterator对象
+     * @param Iterator
+     *     Iterator对象
      * @return 是否为空
      */
     public static boolean isEmpty(Iterator<?> Iterator) {
@@ -507,7 +571,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 数组是否为非空
      *
-     * @param array 数组
+     * @param array
+     *     数组
      * @return 是否为非空
      */
     public static <T> boolean isNotEmpty(final T[] array) {
@@ -517,7 +582,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 数组是否为非空
      *
-     * @param array 数组
+     * @param array
+     *     数组
      * @return 是否为非空
      */
     public static boolean isNotEmpty(final long[] array) {
@@ -527,7 +593,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 数组是否为非空
      *
-     * @param array 数组
+     * @param array
+     *     数组
      * @return 是否为非空
      */
     public static boolean isNotEmpty(final int[] array) {
@@ -537,7 +604,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 数组是否为非空
      *
-     * @param array 数组
+     * @param array
+     *     数组
      * @return 是否为非空
      */
     public static boolean isNotEmpty(final short[] array) {
@@ -547,7 +615,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 数组是否为非空
      *
-     * @param array 数组
+     * @param array
+     *     数组
      * @return 是否为非空
      */
     public static boolean isNotEmpty(final char[] array) {
@@ -557,7 +626,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 数组是否为非空
      *
-     * @param array 数组
+     * @param array
+     *     数组
      * @return 是否为非空
      */
     public static boolean isNotEmpty(final byte[] array) {
@@ -567,7 +637,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 数组是否为非空
      *
-     * @param array 数组
+     * @param array
+     *     数组
      * @return 是否为非空
      */
     public static boolean isNotEmpty(final double[] array) {
@@ -577,7 +648,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 数组是否为非空
      *
-     * @param array 数组
+     * @param array
+     *     数组
      * @return 是否为非空
      */
     public static boolean isNotEmpty(final float[] array) {
@@ -587,7 +659,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 数组是否为非空
      *
-     * @param array 数组
+     * @param array
+     *     数组
      * @return 是否为非空
      */
     public static boolean isNotEmpty(final boolean[] array) {
@@ -597,7 +670,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 集合是否为非空
      *
-     * @param collection 集合
+     * @param collection
+     *     集合
      * @return 是否为非空
      */
     public static boolean isNotEmpty(Collection<?> collection) {
@@ -607,7 +681,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * Map是否为非空
      *
-     * @param map 集合
+     * @param map
+     *     集合
      * @return 是否为非空
      */
     public static <T> boolean isNotEmpty(Map<?, ?> map) {
@@ -617,7 +692,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * Iterable是否为空
      *
-     * @param iterable Iterable对象
+     * @param iterable
+     *     Iterable对象
      * @return 是否为空
      */
     public static boolean isNotEmpty(Iterable<?> iterable) {
@@ -627,7 +703,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * Iterator是否为空
      *
-     * @param Iterator Iterator对象
+     * @param Iterator
+     *     Iterator对象
      * @return 是否为空
      */
     public static boolean isNotEmpty(Iterator<?> Iterator) {
@@ -642,8 +719,10 @@ public final class Collection2Utils extends CollectionUtils {
      * 则得到的Map是 {a=1, b=2, c=3, d=4}<br>
      * 如果两个数组长度不同，则只对应最短部分
      *
-     * @param keys   键列表
-     * @param values 值列表
+     * @param keys
+     *     键列表
+     * @param values
+     *     值列表
      * @return Map
      */
     public static <T, K> Map<T, K> zip(T[] keys, K[] values) {
@@ -668,8 +747,10 @@ public final class Collection2Utils extends CollectionUtils {
      * delimiter = , 则得到的Map是 {a=1, b=2, c=3, d=4}<br>
      * 如果两个数组长度不同，则只对应最短部分
      *
-     * @param keys   键列表
-     * @param values 值列表
+     * @param keys
+     *     键列表
+     * @param values
+     *     值列表
      * @return Map
      */
     public static Map<String, String> zip(String keys, String values, String delimiter) {
@@ -694,8 +775,10 @@ public final class Collection2Utils extends CollectionUtils {
      * 则得到的Map是 {a=1, b=2, c=3, d=4}<br>
      * 如果两个数组长度不同，则只对应最短部分
      *
-     * @param keys   键列表
-     * @param values 值列表
+     * @param keys
+     *     键列表
+     * @param values
+     *     值列表
      * @return Map
      */
     public static <T, K> Map<T, K> zip(Collection<T> keys, Collection<K> values) {
@@ -718,8 +801,10 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 数组中是否包含元素
      *
-     * @param array 数组
-     * @param value 被检查的元素
+     * @param array
+     *     数组
+     * @param value
+     *     被检查的元素
      * @return 是否包含
      */
     public static <T> boolean contains(T[] array, T value) {
@@ -741,7 +826,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 将Entry集合转换为HashMap
      *
-     * @param entryCollection entry集合
+     * @param entryCollection
+     *     entry集合
      * @return Map
      */
     public static <T, K> HashMap<T, K> toMap(Collection<Entry<T, K>> entryCollection) {
@@ -755,10 +841,11 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 将Entry集合转换为HashMap
      *
-     * @param bean bean对象
+     * @param bean
+     *     bean对象
      * @return Map
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static Map toMap(Object bean) {
         Objects.requireNonNull(bean, "Param bean is null");
         BeanMap beanMap = BeanMap.create(bean);
@@ -772,8 +859,10 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 将集合转换为排序后的TreeSet
      *
-     * @param collection 集合
-     * @param comparator 比较器
+     * @param collection
+     *     集合
+     * @param comparator
+     *     比较器
      * @return treeSet
      */
     public static <T> TreeSet<T> toTreeSet(Collection<T> collection, Comparator<T> comparator) {
@@ -787,8 +876,10 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 排序集合
      *
-     * @param collection 集合
-     * @param comparator 比较器
+     * @param collection
+     *     集合
+     * @param comparator
+     *     比较器
      * @return treeSet
      */
     public static <T> List<T> sort(Collection<T> collection, Comparator<T> comparator) {
@@ -800,7 +891,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 将基本类型数组包装为包装类型
      *
-     * @param values 基本类型数组
+     * @param values
+     *     基本类型数组
      * @return 包装类型数组
      */
     public static Integer[] wrap(int... values) {
@@ -815,7 +907,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 将基本类型数组包装为包装类型
      *
-     * @param values 基本类型数组
+     * @param values
+     *     基本类型数组
      * @return 包装类型数组
      */
     public static Long[] wrap(long... values) {
@@ -830,7 +923,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 将基本类型数组包装为包装类型
      *
-     * @param values 基本类型数组
+     * @param values
+     *     基本类型数组
      * @return 包装类型数组
      */
     public static Character[] wrap(char... values) {
@@ -845,7 +939,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 将基本类型数组包装为包装类型
      *
-     * @param values 基本类型数组
+     * @param values
+     *     基本类型数组
      * @return 包装类型数组
      */
     public static Byte[] wrap(byte... values) {
@@ -860,7 +955,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 将基本类型数组包装为包装类型
      *
-     * @param values 基本类型数组
+     * @param values
+     *     基本类型数组
      * @return 包装类型数组
      */
     public static Short[] wrap(short... values) {
@@ -875,7 +971,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 将基本类型数组包装为包装类型
      *
-     * @param values 基本类型数组
+     * @param values
+     *     基本类型数组
      * @return 包装类型数组
      */
     public static Float[] wrap(float... values) {
@@ -890,7 +987,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 将基本类型数组包装为包装类型
      *
-     * @param values 基本类型数组
+     * @param values
+     *     基本类型数组
      * @return 包装类型数组
      */
     public static Double[] wrap(double... values) {
@@ -905,7 +1003,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 将基本类型数组包装为包装类型
      *
-     * @param values 基本类型数组
+     * @param values
+     *     基本类型数组
      * @return 包装类型数组
      */
     public static Boolean[] wrap(boolean... values) {
@@ -920,7 +1019,8 @@ public final class Collection2Utils extends CollectionUtils {
     /**
      * 对象是否为数组对象
      *
-     * @param obj 对象
+     * @param obj
+     *     对象
      * @return 是否为数组对象
      */
     public static boolean isArray(Object obj) {
@@ -934,7 +1034,8 @@ public final class Collection2Utils extends CollectionUtils {
      * Iterator转换为Enumeration Adapt the specified <code>Iterator</code> to the
      * <code>Enumeration</code> interface.
      *
-     * @param iter Iterator
+     * @param iter
+     *     Iterator
      * @return Enumeration
      */
     public static <E> Enumeration<E> asEnumeration(final Iterator<E> iter) {
@@ -957,7 +1058,8 @@ public final class Collection2Utils extends CollectionUtils {
      * Adapt the specified <code>Enumeration</code> to the <code>Iterator</code>
      * interface
      *
-     * @param e Enumeration
+     * @param e
+     *     Enumeration
      * @return Iterator
      */
     public static <E> Iterator<E> asIterator(final Enumeration<E> e) {
