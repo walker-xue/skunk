@@ -21,6 +21,8 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.cglib.beans.BeanMap;
 import org.springframework.util.CollectionUtils;
@@ -128,7 +130,7 @@ public class Objects2 {
             }
             return count;
         }
-        if (obj.getClass().isArray() == true) {
+        if (obj.getClass().isArray()) {
             return Array.getLength(obj);
         }
         return -1;
@@ -180,7 +182,7 @@ public class Objects2 {
             }
             return false;
         }
-        if (obj.getClass().isArray() == true) {
+        if (obj.getClass().isArray()) {
             int len = Array.getLength(obj);
             for (int i = 0; i < len; i++) {
                 Object o = Array.get(obj, i);
@@ -264,8 +266,11 @@ public class Objects2 {
      *     被检查类型
      * @return 检查结果，非数字类型和Null将返回true
      */
-    public static boolean isValidIfNumber(Object obj) {
-        if (obj != null && obj instanceof Number) {
+    public static boolean isValidIfNumber(@NotNull Object obj) {
+
+        Objects.requireNonNull(obj);
+
+        if (obj instanceof Number) {
             if (obj instanceof Double) {
                 return !((Double) obj).isInfinite() && !((Double) obj).isNaN();
             } else if (obj instanceof Float) {
