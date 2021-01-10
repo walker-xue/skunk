@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.skunk</groupId>
         <artifactId>skunk-lite</artifactId>
-        <version>Dragon.SR1</version>
+        <version>Dragon.SR2</version>
     </parent>
     <groupId>com.xinlin.code.generate</groupId>
     <artifactId>skunk-code-generate</artifactId>
