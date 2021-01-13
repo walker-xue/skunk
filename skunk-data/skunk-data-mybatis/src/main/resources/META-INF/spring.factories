@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.github.skunk.data.config.SqlSessionFactoryConfiguration
+com.skunk.data.config.SqlSessionFactoryConfiguration
